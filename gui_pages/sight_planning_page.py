@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 import ttkbootstrap as ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
@@ -247,7 +248,16 @@ class SightPlanningPage(ttk.Frame):
 
     def create_tooltips(self):
 
-        self.extractor = TextExtractor('text_files/tooltips.txt')
+        # Get the directory where the current script (presumably __main__.py or similar) is located
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+
+        # go up one directory from current_dir
+        script_dir = os.path.dirname(current_dir)
+        
+        # Construct the absolute path to tooltips.txt
+        tooltips_path = os.path.join(script_dir, 'text_files', 'tooltips.txt')
+
+        self.extractor = TextExtractor(tooltips_path) 
 
         # tooltip for sight planning treeview
         planning_tooltip = self.extractor.get_text('visible_bodies')

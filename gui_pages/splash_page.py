@@ -1,4 +1,5 @@
 import tkinter as tk
+import os
 import ttkbootstrap as ttk
 from collections import Counter
 import datetime as dt
@@ -13,10 +14,22 @@ class SplashPage(ttk.Frame):
 
         self.create_splash_page()
 
+    import os
+
     def create_splash_page(self):
-        # read splash_text.txt with utf-8 encoding
-        with open('text_files/splash_text.txt', 'r', encoding='utf-8') as f:
+        # Get the directory where splash_page.py is located
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+
+        # Go one level up to the new_capella directory
+        base_dir = os.path.dirname(current_dir)
+
+    # Build the absolute path to splash_text.txt
+        splash_text_path = os.path.join(base_dir, 'text_files', 'splash_text.txt')
+
+        # Read splash_text.txt with utf-8 encoding
+        with open(splash_text_path, 'r', encoding='utf-8') as f:
             self.splash_text = f.read()
+
 
         # make font courier 12
         large_font = ('Courier New', 12)

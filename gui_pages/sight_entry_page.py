@@ -1,4 +1,5 @@
 import tkinter as tk
+import os
 import ttkbootstrap as ttk
 from ttkbootstrap.tooltip import ToolTip
 from ttkwidgets.autocomplete import AutocompleteCombobox
@@ -498,7 +499,16 @@ class SightEntryPage(ttk.Frame):
         self.time_entry.bind('<KeyRelease>', lambda event: self.autocomplete.time_formatting(event, self.time_entry))
     
     def create_tooltips(self):
-        self.extractor = TextExtractor('text_files/tooltips.txt') 
+        # Get the directory where the current script (presumably __main__.py or similar) is located
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+
+        # go up one directory from current_dir
+        script_dir = os.path.dirname(current_dir)
+        
+        # Construct the absolute path to tooltips.txt
+        tooltips_path = os.path.join(script_dir, 'text_files', 'tooltips.txt')
+
+        self.extractor = TextExtractor(tooltips_path) 
         # create update button tooltip
         self.update_button_tooltip = ToolTip(self.update_button, self.extractor.get_text('updating_a_sight'))
 
