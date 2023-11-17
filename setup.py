@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='Capella',
-    version='2.0',
+    version='2.0.1',
     packages=find_packages(),
     description='A Python package for celestial navigation',
     long_description=open('README.md').read(),
