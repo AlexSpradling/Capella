@@ -1,0 +1,8 @@
+C:\Users\alexs\Documents\python_packs\new_capella\gui_pages\azimuth_page.py
+C:\Users\alexs\Documents\python_packs\new_capella\gui_pages\fit_slope_page.py
+C:\Users\alexs\Documents\python_packs\new_capella\gui_pages\lop_plot_page.py
+C:\Users\alexs\Documents\python_packs\new_capella\gui_pages\sight_entry_page.py
+C:\Users\alexs\Documents\python_packs\new_capella\gui_pages\sight_planning_page.py
+C:\Users\alexs\Documents\python_packs\new_capella\gui_pages\splash_page.py
+C:\Users\alexs\Documents\python_packs\new_capella\hip_main.dat
+C:\Users\alexs\Documents\python_packs\new_capella\main.py

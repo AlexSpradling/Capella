@@ -1,0 +1,51 @@
+import tkinter as tk
+import ttkbootstrap as ttk
+from collections import Counter
+import datetime as dt
+import utilities.celestial_engine as cnav
+from ttkbootstrap.dialogs import Messagebox
+from ttkbootstrap import Style
+from gui_pages.sight_entry_page import SightEntryPage
+
+class SplashPage(ttk.Frame):
+    def __init__(self, container):
+        super().__init__(container)
+
+        self.create_splash_page()
+
+    def create_splash_page(self):
+        # read splash_text.txt with utf-8 encoding
+        with open('text_files/splash_text.txt', 'r', encoding='utf-8') as f:
+            self.splash_text = f.read()
+
+        # make font courier 12
+        large_font = ('Courier New', 12)
+
+        logo = """
+                     ______                 ____
+                    / ____/___ _____  ___  / / /___ _
+                   / /   / __ `/ __ \/ _ \/ / / __ `/
+                  / /___/ /_/ / /_/ /  __/ / / /_/ /
+ _________________\____/\__,_/ .___/\___/_/_/\__,_/_________________
+/_____/_____/_____/         /_/                  /_____/_____/_____/
+
+        """
+
+        # make logo label
+        self.logo_label = ttk.Label(self, text=logo, font=large_font, anchor = 'center', justify='left')
+        self.logo_label.pack(padx=20, pady=5, fill='both', expand=True)
+
+        # make label
+        self.text_label = ttk.Label(self, text=self.splash_text, font=large_font, anchor = 'center', justify='center')
+        self.text_label.pack(padx=20, pady=10, fill='both', expand=True)
+
+        # make it red
+        self.logo_label.config(foreground='red')
+
+        # make button
+        self.button = ttk.Button(self, text='I accept the above terms', command=self.enter)
+        self.button.pack(padx=10, pady=10, fill='both', expand=False)
+
+    def enter(self):
+        self.destroy()
+    

@@ -1,0 +1,7 @@
+MANIFEST.in
+README.md
+setup.py
+Capella.egg-info/PKG-INFO
+Capella.egg-info/SOURCES.txt
+Capella.egg-info/dependency_links.txt
+Capella.egg-info/top_level.txt
