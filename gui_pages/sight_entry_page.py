@@ -19,6 +19,7 @@ class SightEntryPage(ttk.Frame):
         super().__init__(container)
 
         self.create_label_frames()
+        self.create_notebook()
         self.create_sight_treeview()
         self.create_dr_info_entry()
         self.create_sight_info_entry()
@@ -33,30 +34,76 @@ class SightEntryPage(ttk.Frame):
                                       lambda event: UpdateAndAveraging(self.sight_list_treeview,
                                                                        self.sight_entry_fields 
                                                                        ).print_element(event))
+
   
     def create_label_frames(self):
 
         self.sight_frame = ttk.LabelFrame(self, text='Sight')
-        self.dr_info_frame = ttk.LabelFrame(self, text='DR Info')
-        self.sextant_info_frame = ttk.LabelFrame(self, text='Sextant Info')
-        self.sight_info_entry_frame = ttk.LabelFrame(self, text='Sight Info')
-        self.fix_info_frame = ttk.LabelFrame(self, text='Fix Info')
-        
-        # Arrange label frames using grid
-        self.sight_frame.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky='nsew')
-        self.dr_info_frame.grid(row=1, column=0, padx=10, pady=10, sticky='ew')
-        self.sextant_info_frame.grid(row=1, column=1, padx=10, pady=10, sticky='ew')
-        self.sight_info_entry_frame.grid(row=2, column=0, columnspan=2, padx=10, pady=10, sticky='ew')
-        self.fix_info_frame.grid(row=3, column=0, columnspan=2, padx=10, pady=10, sticky='nsew')
-        
-        # Make columns expandable
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=1)
-        
-        # Adjust row weights to give sight_frame more space
-        self.grid_rowconfigure(0, weight=2)  # sight_frame gets twice as much space
-        self.grid_rowconfigure(3, weight=1)  # fix_info_frame
 
+        self.sight_frame.pack(expand = True)
+        # self.dr_info_frame = ttk.LabelFrame(self.page2, text='DR Info')
+        # self.sextant_info_frame = ttk.LabelFrame(self.page3, text='Sextant Info')
+        # self.sight_info_entry_frame = ttk.LabelFrame(self, text='Sight Info')
+        # self.fix_info_frame = ttk.LabelFrame(self, text='Fix Info')
+
+    def create_notebook(self):
+
+        # create label frame
+        self.notebook_frame = ttk.LabelFrame(self, text = 'Sights')
+        self.notebook_frame.pack(expand = True)
+        self.notebook = ttk.Notebook(self.notebook_frame)
+        
+        # grid
+        self.notebook.grid(row=0, column=0, sticky='NESW')
+
+    
+        self.page1 = ttk.Frame(self.notebook)
+        self.page1.grid(sticky='nsew')  # Use grid instead of pack
+        self.page1.grid_rowconfigure(0, weight=1)
+        self.page1.grid_columnconfigure(0, weight=1)
+
+        self.dr_info_frame = ttk.LabelFrame(self.page1, text='DR Info')
+        self.dr_info_frame.pack()
+
+        self.page2 = ttk.Frame(self.notebook)
+        self.page2.grid(sticky='nsew')  # Use grid instead of pack
+        self.page2.grid_rowconfigure(0, weight=1)
+        self.page2.grid_columnconfigure(0, weight=1)
+
+
+        self.sextant_info_frame = ttk.LabelFrame(self.page2, text='Sextant Info')
+        self.sextant_info_frame.pack()
+
+        self.page3 = ttk.Frame(self.notebook)
+        self.page3.grid(sticky='nsew')  # Use grid instead of pack
+        self.page3.grid_rowconfigure(0, weight=1)
+        self.page3.grid_columnconfigure(0, weight=1)
+
+
+        self.sight_info_entry_frame = ttk.LabelFrame(self.page3, text='Sight Info')
+        self.sight_info_entry_frame.pack()
+
+        self.page4 = ttk.Frame(self.notebook)
+        self.page4.grid(sticky='nsew')  # Use grid instead of pack
+        self.page4.grid_rowconfigure(0, weight=1)
+        self.page4.grid_columnconfigure(0, weight=1)
+
+        self.fix_info_frame = ttk.LabelFrame(self.page4, text='Fix Info')
+        self.fix_info_frame.pack(expand = True)
+
+        self.notebook.add(self.page1, text='DR Info.')
+        self.notebook.add(self.page2, text='Sextant Info.')
+        self.notebook.add(self.page3, text = 'Sight Entry')
+        self.notebook.add(self.page4, text='Optimal Triads')
+
+        self.page1.master = self
+        self.page2.master = self
+        self.page3.master = self
+        self.page4.master = self
+
+
+
+       
     def create_sight_treeview(self):
 
         # create treeview
