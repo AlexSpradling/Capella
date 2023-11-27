@@ -62,8 +62,10 @@ class SightEntryPage(ttk.Frame):
         # create treeview
         self.sight_list_treeview = ttk.Treeview(self.sight_frame, height=10)
 
-        # pack 
-        self.sight_list_treeview.pack(padx=10, pady=10, fill='both', expand=True, anchor= 'center')
+        # With these lines:
+        self.sight_frame.grid_rowconfigure(0, weight=1)
+        self.sight_frame.grid_columnconfigure(0, weight=1)
+        self.sight_list_treeview.grid(row=0, column=0, padx=10, pady=10, sticky='nsew')
 
         # add columns to treeview
         self.sight_list_treeview['columns'] = ('Body', 'Hs', 'Date', 'Time')

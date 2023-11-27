@@ -29,12 +29,12 @@ class FitSlopePage(ttk.Frame):
         self.fit_slope_scatter_plot_toolbar.update()
 
         # packing order is important! 
-        self.fit_slope_scatter_plot_toolbar.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+        self.fit_slope_scatter_plot_toolbar.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
         self.canvas_fit_slope.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
         self.fit_slope_scatter_plot_canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-    
+   
     def draw_canvas(self):
         # draw canvas
         self.fit_slope_scatter_plot_canvas.draw()

@@ -38,11 +38,11 @@ class LandingPage(ttk.Frame):
         self.splash_page.destroy()
 
         # add pages to notebook
-        self.notebook.add(self.page1, text='DR/Sight Entry')
-        self.notebook.add(self.page2, text='LOP Plot')
-        self.notebook.add(self.page3, text='Fit Slope Analysis')
-        self.notebook.add(self.page4, text='Sight Planning')
-        self.notebook.add(self.page5, text='Azimuth')
+        self.notebook.add(self.page1, text='DR/Sight Entry', padding=10)
+        self.notebook.add(self.page2, text='LOP Plot', padding=10)
+        self.notebook.add(self.page3, text='Fit Slope Analysis', padding=10)
+        self.notebook.add(self.page4, text='Sight Planning', padding=10)
+        self.notebook.add(self.page5, text='Azimuth', padding=10)
 
     def __init__(self, container):
        # create notebook
@@ -113,16 +113,34 @@ class LandingPage(ttk.Frame):
 if __name__ == '__main__':
     root = tk.Tk()
     
-    # change geometry
-    root.geometry('1496x1805+724+0')
+    # change geometry to 1/2 the detected screen size
+
+    # get screen size
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+
+    # set geometry to 1284x1535
+
+    root.geometry('1283x1535')
 
     # set theme
     ttk.Style('darkly')
 
     # set title
     root.title('Capella')
-    LandingPage(root).pack(expand=True, fill='both')
-    root.mainloop()
+
+    # Configure the weights for the root window
+    root.grid_rowconfigure(0, weight=1)
+    root.grid_columnconfigure(0, weight=1)
+
+    # create landing page
+    landing_page = LandingPage(root)
     
+    # pack landing page
+    landing_page.pack(expand=True, fill='both')
+
+    # run mainloop
+    root.mainloop()
+
     # print geometry
     print(root.geometry())

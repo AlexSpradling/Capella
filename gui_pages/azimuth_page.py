@@ -29,6 +29,14 @@ class AzimuthPage(ttk.Frame):
         self.azwrap.pack(fill='both', expand=True, padx=10, pady=10)
         self.azwrap2.pack(expand=True, padx=10, pady=10)
 
+        # self.azwrap.grid(row=0, column=0, sticky='NESW')
+        # self.azwrap2.grid(row=1, column=0, sticky='NESW')
+
+        # weights
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        
+
     def create_observation_inputs(self):
         # Define unique StringVar variables for each input
         self.az_vars = [tk.StringVar(self) for _ in range(12)]
@@ -36,8 +44,8 @@ class AzimuthPage(ttk.Frame):
         self.populate_dropdown()
         self.populate_entries()
 
-        compute_btn = ttk.Button(self.azwrap2, text="COMPUTE", command=self.compass_correction)
-        compute_btn.grid(row=6, column=3, padx=10, pady=10, columnspan=2)
+        compute_btn = ttk.Button(self.azwrap2, text="COMPUTE", command=self.compass_correction, style='primary.Outline.TButton')
+        compute_btn.grid(row=6, column=0, padx=10, pady=10)
         compute_btn.configure(width='12')
 
     def populate_dropdown(self):
@@ -127,7 +135,7 @@ class AzimuthPage(ttk.Frame):
 
     def create_treeview(self):
         self.trvaz = ttk.Treeview(self.azwrap, show='headings', height='12')
-        self.trvaz.pack(padx=10, pady=10, expand=True, fill='both')
+        self.trvaz.pack(side=tk.TOP, fill=tk.X, padx=10, pady=10)
         
         self.trvaz['columns'] = [str(i) for i in range(1, 14)]
         

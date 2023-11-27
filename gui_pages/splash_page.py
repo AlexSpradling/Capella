@@ -46,18 +46,21 @@ class SplashPage(ttk.Frame):
 
         # make logo label
         self.logo_label = ttk.Label(self, text=logo, font=large_font, anchor = 'center', justify='left')
-        self.logo_label.pack(padx=20, pady=5, fill='both', expand=True)
+
 
         # make label
         self.text_label = ttk.Label(self, text=self.splash_text, font=large_font, anchor = 'center', justify='center')
-        self.text_label.pack(padx=20, pady=10, fill='both', expand=True)
 
         # make it red
         self.logo_label.config(foreground='red')
 
         # make button
-        self.button = ttk.Button(self, text='I accept the above terms', command=self.enter)
-        self.button.pack(padx=10, pady=10, fill='both', expand=False)
+        self.button = ttk.Button(self, text='I ACCEPT THE ABOVE TERMS', command=self.enter, style='primary.Outline.TButton') 
+
+        # grid everything
+        self.logo_label.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        self.text_label.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        self.button.pack(side=tk.TOP, fill=tk.BOTH, padx=10, pady=10, expand=True)
 
     def enter(self):
         self.destroy()

@@ -11,24 +11,24 @@ class LOPPlotPage(ttk.Frame):
         self.draw_canvas()
         
     def add_lop_plot(self):
-        #create canvas, make it large 
-        self.canvas_lop = tk.Canvas(self, width=800, height=800)
-        
-        # get figure from lop_plot 
+        # Create canvas
+        self.canvas_lop = tk.Canvas(self)
+
+        # Get figure from lop_plot 
         self.lop_plot = celestial_engine.plt.figure(2)
         self.lop_plot.set_facecolor('#222222')
 
-        # add figure to canvas
+        # Add figure to canvas
         self.lop_plot_canvas = FigureCanvasTkAgg(self.lop_plot, master=self.canvas_lop)
-        
-        # add toolbar to canvas
+
+        # Add toolbar to canvas
         self.lop_plot_toolbar = NavigationToolbar2Tk(self.lop_plot_canvas, self.canvas_lop)
         self.lop_plot_toolbar.update()
 
-        # packing order is important!
-        self.lop_plot_toolbar.pack(side=tk.BOTTOM, fill='both', expand=True)
-        self.canvas_lop.pack(side=tk.TOP, fill='both', expand=True)
-        self.lop_plot_canvas.get_tk_widget().pack(side=tk.BOTTOM, fill='both', expand=True)
+        # Grid layout for toolbar, canvas, and plot canvas widget
+        self.lop_plot_toolbar.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+        self.canvas_lop.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+        self.lop_plot_canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
     def draw_canvas(self):
         # draw canvas

@@ -24,21 +24,53 @@ class SightPlanningPage(ttk.Frame):
         self.autocompletion_binding()
         self.create_tooltips()
 
+         # Configure the weights for the SightPlanningPage frame
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+
       
         
     def create_label_frames(self):
         self.sight_planning_frame = ttk.LabelFrame(self, text='Sight Planning')
-        self.sight_planning_frame.pack(padx=10, pady=10, fill='both', expand=True)
+
+        # grid, fill both directions
+        self.sight_planning_frame.grid(row=0, column=0, sticky='NESW')
+
+        # Configure the weights
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+
 
     def create_notebook(self):
         self.notebook = ttk.Notebook(self.sight_planning_frame)
-        self.notebook.pack(padx=10, pady=10, fill='both', expand=True)
+        
+        # grid
+        self.notebook.grid(row=0, column=0, sticky='NESW')
+
+        # Configure the weights
+        self.sight_planning_frame.grid_rowconfigure(0, weight=1)
+        self.sight_planning_frame.grid_columnconfigure(0, weight=1)
+
 
         self.page1 = ttk.Frame(self.notebook)
+        self.page1.grid(sticky='nsew')  # Use grid instead of pack
+        self.page1.grid_rowconfigure(0, weight=1)
+        self.page1.grid_columnconfigure(0, weight=1)
+
         self.page2 = ttk.Frame(self.notebook)
+        self.page2.grid(sticky='nsew')  # Use grid instead of pack
+        self.page2.grid_rowconfigure(0, weight=1)
+        self.page2.grid_columnconfigure(0, weight=1)
+
         self.page3 = ttk.Frame(self.notebook)
+        self.page3.grid(sticky='nsew')  # Use grid instead of pack
+        self.page3.grid_rowconfigure(0, weight=1)
+        self.page3.grid_columnconfigure(0, weight=1)
+
         self.page4 = ttk.Frame(self.notebook)
-        self.page5 = ttk.Frame(self.notebook)
+        self.page4.grid(sticky='nsew')  # Use grid instead of pack
+        self.page4.grid_rowconfigure(0, weight=1)
+        self.page4.grid_columnconfigure(0, weight=1)
 
         self.notebook.add(self.page1, text='Planning Control')
         self.notebook.add(self.page3, text='Visible Bodies')
@@ -53,9 +85,14 @@ class SightPlanningPage(ttk.Frame):
     def create_planning_controls_page(self):
         # create label frames
         self.planning_controls_frame = ttk.LabelFrame(self.page1, text='Planning Controls')
-        self.planning_controls_frame.pack(padx=10, pady=10, expand=True)
+        
+        # grid
+        self.planning_controls_frame.grid(row=0, column=0)
+
         self.phenoma_frame = ttk.LabelFrame(self.page1, text='Phenomena')
-        self.phenoma_frame.pack(padx=10, pady=10, fill='both', expand=True)
+        
+        # grid
+        self.phenoma_frame.grid(row=1, column=0, sticky='NESW')
 
         # create label and entry fields for date, time, dr latitude, dr longitude
         # Date
@@ -106,6 +143,7 @@ class SightPlanningPage(ttk.Frame):
         # create buttons
 
         self.set_planning_time_button = ttk.Button(self.planning_controls_frame, text = 'Plan',
+                                                        style='primary.Outline.TButton',
                                                        command= lambda: SightSessionPlanning(self.gui_page1.entry_fields,
                                                                                              [self.time_of_phenomena_treeview,
                                                                                               self.planning_treeview,
@@ -140,8 +178,15 @@ class SightPlanningPage(ttk.Frame):
     def create_time_of_phenomena_treeview(self):
         # add treeview to page 2
         self.time_of_phenomena_treeview = ttk.Treeview(self.phenoma_frame)
-        self.time_of_phenomena_treeview.pack(padx=10, pady=10, fill='both', expand=True)
+        
+        # grid
+        self.time_of_phenomena_treeview.grid(row=0, column=0, padx=10, pady=10, sticky='NESW')
 
+        # Configure the weights
+        self.phenoma_frame.grid_rowconfigure(0, weight=1)
+        self.phenoma_frame.grid_columnconfigure(0, weight=1)
+
+        
         # add date, time, event columns
         self.time_of_phenomena_treeview['columns'] = ('Date GMT', 'Date LMT', 'Event')
 
@@ -166,7 +211,9 @@ class SightPlanningPage(ttk.Frame):
     def create_planning_treeview(self):
         # add treeview to page 3 
         self.planning_treeview = ttk.Treeview(self.page3)
-        self.planning_treeview.pack(padx=10, pady=10, fill='both', expand=True)
+        
+        # grid
+        self.planning_treeview.grid(row=0, column=0, padx=10, pady=10, sticky='NESW')
 
         # add body, altitude, and azimuth columns
         self.planning_treeview['columns'] = ('Body', 'Altitude', 'Azimuth', 'Magnitude')
@@ -189,7 +236,9 @@ class SightPlanningPage(ttk.Frame):
     def create_optimal_triad_treeview(self):
         # add treeview to page 4
         self.optimal_triad_treeview = ttk.Treeview(self.page4)
-        self.optimal_triad_treeview.pack(padx=10, pady=10, fill='both', expand=True)
+        
+        # grid
+        self.optimal_triad_treeview.grid(row=0, column=0, padx=10, pady=10, sticky='NESW')
 
         # add body, altitude, azimuth, and magnitude columns
         self.optimal_triad_treeview['columns'] = ('Body', 'Altitude', 'Azimuth', 'Magnitude')
