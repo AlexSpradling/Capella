@@ -1,7 +1,8 @@
+import sys
 import subprocess
 import numpy as np
 from skyfield.api import Angle
-import pyperclip as pc
+import pyclip as pc
 import re
 from ttkbootstrap.dialogs import Messagebox
 import datetime as dt
@@ -49,9 +50,11 @@ def load_sights_from_clipboard(instance, entries, sight_list_treeview):
     sight_list_treeview : ttk.Treeview
         Treeview widget from the Sight data frame.
     """
+    copied_text = pc.paste(text = True)
+    print(copied_text)
     try:
         # raw copied data
-        copied1 = pc.paste()
+        copied1 = pc.paste(text = True)
         copied1 = re.sub(r" ", '', copied1)
         
         # split into session data chunk
@@ -75,10 +78,11 @@ def load_sights_from_clipboard(instance, entries, sight_list_treeview):
                     values=(copied1.split()[i + 5]).strip("|").split('|'), tags=('main',))
                 instance.counter += 1
             except:
-                pass
+                pass 
         
     # if info is formatted incorrectly send error message
     except:
+        print('Error message', file = sys.stderr, flush = True)
         Messagebox.show_warning('Input Error', 'Data Formatted Incorrectly')
         return
 
