@@ -38,7 +38,7 @@ class SightEntryPage(ttk.Frame):
   
     def create_label_frames(self):
 
-        self.sight_frame = ttk.LabelFrame(self, text='Sight')
+        self.sight_frame = ttk.LabelFrame(self, text='Sight List')
 
         self.sight_frame.pack(expand = True)
         # self.dr_info_frame = ttk.LabelFrame(self.page2, text='DR Info')
@@ -49,60 +49,49 @@ class SightEntryPage(ttk.Frame):
     def create_notebook(self):
 
         # create label frame
-        self.notebook_frame = ttk.LabelFrame(self, text = 'Sights')
+        self.notebook_frame = ttk.LabelFrame(self, text = 'Session Menu')
         self.notebook_frame.pack(expand = True)
         self.notebook = ttk.Notebook(self.notebook_frame)
         
         # grid
         self.notebook.grid(row=0, column=0, sticky='NESW')
-
-    
+ 
         self.page1 = ttk.Frame(self.notebook)
-        self.page1.grid(sticky='nsew')  # Use grid instead of pack
-        self.page1.grid_rowconfigure(0, weight=1)
-        self.page1.grid_columnconfigure(0, weight=1)
+        self.page1.grid(row = 0, column= 0, sticky='NESW')
 
-        self.dr_info_frame = ttk.LabelFrame(self.page1, text='DR Info')
-        self.dr_info_frame.pack()
+        # self.dr_info_frame = ttk.LabelFrame(self.page1, text='DR Info')
+        # self.dr_info_frame.pack(ipadx = 10, ipady = 10, anchor= 'center', expand = True)
+
+        self.dr_info_frame = self.page1
 
         self.page2 = ttk.Frame(self.notebook)
-        self.page2.grid(sticky='nsew')  # Use grid instead of pack
-        self.page2.grid_rowconfigure(0, weight=1)
-        self.page2.grid_columnconfigure(0, weight=1)
+        self.page2.grid(row = 0, column= 0, sticky='NESW')
 
+        self.sextant_info_frame = self.page2
 
-        self.sextant_info_frame = ttk.LabelFrame(self.page2, text='Sextant Info')
-        self.sextant_info_frame.pack()
+        # self.sextant_info_frame = ttk.LabelFrame(self.page2, text='Sextant Info')
+        # self.sextant_info_frame.pack(ipadx=10, ipady=10, anchor='center', expand = True)
 
         self.page3 = ttk.Frame(self.notebook)
-        self.page3.grid(sticky='nsew')  # Use grid instead of pack
-        self.page3.grid_rowconfigure(0, weight=1)
-        self.page3.grid_columnconfigure(0, weight=1)
+        self.page3.grid(row = 0, column= 0, sticky='NESW')  # Use grid instead of pack
 
+        self.sight_info_entry_frame = self.page3
 
-        self.sight_info_entry_frame = ttk.LabelFrame(self.page3, text='Sight Info')
-        self.sight_info_entry_frame.pack()
+        # self.sight_info_entry_frame = ttk.LabelFrame(self.page3, text='Sight Info')
+        # self.sight_info_entry_frame.pack(ipadx=10, ipady=10, anchor='center', expand = True)
 
         self.page4 = ttk.Frame(self.notebook)
-        self.page4.grid(sticky='nsew')  # Use grid instead of pack
-        self.page4.grid_rowconfigure(0, weight=1)
-        self.page4.grid_columnconfigure(0, weight=1)
+        self.page4.grid(row = 0, column= 0, sticky='NESW')  # Use grid instead of pack
 
-        self.fix_info_frame = ttk.LabelFrame(self.page4, text='Fix Info')
-        self.fix_info_frame.pack(expand = True)
+        self.fix_info_frame = self.page4
+
+        # self.fix_info_frame = ttk.LabelFrame(self.page4, text='Fix Info')
+        # self.fix_info_frame.pack(ipadx=10, ipady=10, anchor='center', expand = True)
 
         self.notebook.add(self.page1, text='DR Info.')
         self.notebook.add(self.page2, text='Sextant Info.')
         self.notebook.add(self.page3, text = 'Sight Entry')
-        self.notebook.add(self.page4, text='Optimal Triads')
-
-        self.page1.master = self
-        self.page2.master = self
-        self.page3.master = self
-        self.page4.master = self
-
-
-
+        self.notebook.add(self.page4, text='Fix Computation')
        
     def create_sight_treeview(self):
 
@@ -112,7 +101,7 @@ class SightEntryPage(ttk.Frame):
         # With these lines:
         self.sight_frame.grid_rowconfigure(0, weight=1)
         self.sight_frame.grid_columnconfigure(0, weight=1)
-        self.sight_list_treeview.grid(row=0, column=0, padx=10, pady=10, sticky='nsew')
+        self.sight_list_treeview.grid(row=0, column=0, ipadx=10, ipady=10, sticky='nsew')
 
         # add columns to treeview
         self.sight_list_treeview['columns'] = ('Body', 'Hs', 'Date', 'Time')
@@ -151,7 +140,6 @@ class SightEntryPage(ttk.Frame):
             Fix Time
         """
         
-
         # create labels
         self.dr_date_label = ttk.Label(self.dr_info_frame, text='DR Date UTC:')
         self.dr_time_label = ttk.Label(self.dr_info_frame, text='DR Time UTC:')
@@ -248,6 +236,7 @@ class SightEntryPage(ttk.Frame):
                                      validate='focusout',
                                      validatecommand=(self.validate_number, '%P'))
 
+
         self.index_error_entry = ttk.Entry(self.sextant_info_frame, 
                                            textvariable=self.index_error, 
                                            width=second_row_width,
@@ -337,10 +326,8 @@ class SightEntryPage(ttk.Frame):
         self.pressure_label.grid(row=3, column=0, sticky='NSW', padx=10, pady=10)
         
 
-        
-
         # grid entry fields
-        self.dr_date_entry.grid(row=0, column=1, sticky='NESW', padx=10, pady=10)
+        self.dr_date_entry.grid(row=0, column=1, sticky='NESW', padx=10, pady=10, )
         self.dr_time_entry.grid(row=1, column=1, sticky='NESW', padx=10, pady=10)
         self.dr_latitude_entry.grid(row=2, column=1, sticky='NESW', padx=10, pady=10)
         self.dr_longitude_entry.grid(row=3, column=1, sticky='NESW', padx=10, pady=10)
@@ -354,10 +341,7 @@ class SightEntryPage(ttk.Frame):
         # self.fix_date_entry.grid(row=0, column=3, sticky='NS', padx=10, pady=10)
         # self.fix_time_entry.grid(row=1, column=3, sticky='NS', padx=10, pady=10)
 
-        
-
-
-              
+    
     def create_sight_info_entry(self):
         """ 
         Creates labels and entry field for:
@@ -468,6 +452,7 @@ class SightEntryPage(ttk.Frame):
         DR Lat
         DR Long
         """
+        self.fix_info_frame = self.page4
 
         # create treeview
         self.fix_treeview = ttk.Treeview(self.fix_info_frame, height=2)

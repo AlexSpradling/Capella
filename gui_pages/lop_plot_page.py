@@ -26,9 +26,9 @@ class LOPPlotPage(ttk.Frame):
         self.lop_plot_toolbar.update()
 
         # Grid layout for toolbar, canvas, and plot canvas widget
-        self.lop_plot_toolbar.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-        self.canvas_lop.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-        self.lop_plot_canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+        self.lop_plot_toolbar.pack(side=tk.TOP, fill=tk.BOTH, expand=1, pady = 0)
+        self.canvas_lop.pack(side=tk.TOP, fill=tk.BOTH, expand=1, pady = 0)
+        self.lop_plot_canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1, pady = 0)
 
     def draw_canvas(self):
         # draw canvas

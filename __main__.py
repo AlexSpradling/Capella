@@ -11,7 +11,7 @@ from utilities.sight_handling import load_sights_from_clipboard, save_sights_to_
 # set dpi awareness
 try:
     from ctypes import windll
-    windll.shcore.SetProcessDpiAwareness(1)
+    windll.shcore.SetProcessDpiAwareness(2)
 except:
     pass
 
@@ -121,7 +121,7 @@ if __name__ == '__main__':
 
     # set geometry to 1284x1535
 
-    root.geometry('1283x1535')
+    root.geometry('718x847')
 
     # set theme
     ttk.Style('darkly')
