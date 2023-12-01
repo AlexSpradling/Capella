@@ -121,7 +121,7 @@ if __name__ == '__main__':
 
     # set geometry to 1284x1535
 
-    root.geometry('718x847')
+    root.geometry('1426x1683')
 
     # set theme
     ttk.Style('darkly')
