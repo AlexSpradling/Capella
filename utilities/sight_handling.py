@@ -1,8 +1,9 @@
 import sys
+import os
 import subprocess
 import numpy as np
 from skyfield.api import Angle
-import pyclip as pc
+import pyperclip as pc
 import re
 from ttkbootstrap.dialogs import Messagebox
 import datetime as dt
@@ -50,11 +51,11 @@ def load_sights_from_clipboard(instance, entries, sight_list_treeview):
     sight_list_treeview : ttk.Treeview
         Treeview widget from the Sight data frame.
     """
-    copied_text = pc.paste(text = True)
+    copied_text = pc.paste()
     print(copied_text)
     try:
         # raw copied data
-        copied1 = pc.paste(text = True)
+        copied1 = pc.paste()
         copied1 = re.sub(r" ", '', copied1)
         
         # split into session data chunk
@@ -125,10 +126,28 @@ def update_sight(entry_list, sight_list_treeview):
                                                         entry_list[2].get(), 
                                                         entry_list[3].get()), 
                                                         tags=('main', 0))
+
+
 def open_sight_log(event=None):
-    """Opens sight_log.txt file in notepad."""
-    subprocess.Popen(['notepad', 'text_files/sight_log.txt'], shell = True)
-    
+    """Opens sight_log.txt file in the default text editor, in an OS-agnostic way."""
+    # Define the path to the file
+    file_path = os.path.join('new_capella', 'text_files', 'sight_log.txt')
+
+    # Check if the file exists
+    if not os.path.exists(file_path):
+        print(f"File not found: {file_path}")
+        return
+
+    # Open the file with the default application
+    try:
+        if sys.platform == 'win32':
+            os.startfile(file_path)  # For Windows
+        elif sys.platform == 'darwin':
+            subprocess.Popen(['open', file_path])  # For macOS
+        else:
+            subprocess.Popen(['xdg-open', file_path])  # For Linux
+    except Exception as e:
+        print(f"Error opening file: {e}")    
 
 class UpdateAndAveraging:
     def __init__(self, treeview, ents):
