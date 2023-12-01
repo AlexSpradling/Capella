@@ -22,6 +22,7 @@ class SightEntryPage(ttk.Frame):
         self.create_notebook()
         self.create_sight_treeview()
         self.create_dr_info_entry()
+        self.create_sextant_info_entry()
         self.create_sight_info_entry()
         self.create_fix_info_treeview()
         self.create_compute_fix_button() 
@@ -40,7 +41,7 @@ class SightEntryPage(ttk.Frame):
 
         self.sight_frame = ttk.LabelFrame(self, text='Sight List')
 
-        self.sight_frame.pack(expand = True)
+        self.sight_frame.pack(expand = True, fill = "both")
         # self.dr_info_frame = ttk.LabelFrame(self.page2, text='DR Info')
         # self.sextant_info_frame = ttk.LabelFrame(self.page3, text='Sextant Info')
         # self.sight_info_entry_frame = ttk.LabelFrame(self, text='Sight Info')
@@ -50,30 +51,30 @@ class SightEntryPage(ttk.Frame):
 
         # create label frame
         self.notebook_frame = ttk.LabelFrame(self, text = 'Session Menu')
-        self.notebook_frame.pack(expand = True)
+        self.notebook_frame.pack(expand = True, fill = 'both')
         self.notebook = ttk.Notebook(self.notebook_frame)
         
         # grid
-        self.notebook.grid(row=0, column=0, sticky='NESW')
- 
+        self.notebook.pack(expand = True, fill = "both") 
+                
         self.page1 = ttk.Frame(self.notebook)
-        self.page1.grid(row = 0, column= 0, sticky='NESW')
+        self.page1.pack(expand = False)
 
         # self.dr_info_frame = ttk.LabelFrame(self.page1, text='DR Info')
-        # self.dr_info_frame.pack(ipadx = 10, ipady = 10, anchor= 'center', expand = True)
+        # self.dr_info_frame.pack(ipadx = 10, ipady = 10, anchor= 'center', expand = False)
 
         self.dr_info_frame = self.page1
 
         self.page2 = ttk.Frame(self.notebook)
-        self.page2.grid(row = 0, column= 0, sticky='NESW')
+        self.page2.pack(expand = False )
 
         self.sextant_info_frame = self.page2
 
         # self.sextant_info_frame = ttk.LabelFrame(self.page2, text='Sextant Info')
-        # self.sextant_info_frame.pack(ipadx=10, ipady=10, anchor='center', expand = True)
+        # self.sextant_info_frame.pack(ipadx=10, ipady=10, anchor='center', expand = False)
 
         self.page3 = ttk.Frame(self.notebook)
-        self.page3.grid(row = 0, column= 0, sticky='NESW')  # Use grid instead of pack
+        self.page3.pack(expand = False)
 
         self.sight_info_entry_frame = self.page3
 
@@ -81,7 +82,7 @@ class SightEntryPage(ttk.Frame):
         # self.sight_info_entry_frame.pack(ipadx=10, ipady=10, anchor='center', expand = True)
 
         self.page4 = ttk.Frame(self.notebook)
-        self.page4.grid(row = 0, column= 0, sticky='NESW')  # Use grid instead of pack
+        self.page4.pack(expand = False)
 
         self.fix_info_frame = self.page4
 
@@ -102,7 +103,7 @@ class SightEntryPage(ttk.Frame):
         self.sight_frame.grid_rowconfigure(0, weight=1)
         self.sight_frame.grid_columnconfigure(0, weight=1)
         self.sight_list_treeview.grid(row=0, column=0, ipadx=10, ipady=10, sticky='nsew')
-
+                
         # add columns to treeview
         self.sight_list_treeview['columns'] = ('Body', 'Hs', 'Date', 'Time')
         self.sight_list_treeview.column('#0', width=0, stretch='no')
@@ -130,11 +131,6 @@ class SightEntryPage(ttk.Frame):
             DR Time
             DR Latitude
             DR Longitude
-            Course
-            Speed
-            Index Error
-            Height of Eye
-            Temperature
             Pressure
             Fix Date
             Fix Time
@@ -147,27 +143,17 @@ class SightEntryPage(ttk.Frame):
         self.dr_longitude_label = ttk.Label(self.dr_info_frame, text='DR Longitude:')
         self.course_label = ttk.Label(self.dr_info_frame, text='Course:')
         self.speed_label = ttk.Label(self.dr_info_frame, text='Speed kts:')
-
-        self.index_error_label = ttk.Label(self.sextant_info_frame, text='Index Error :')
-        self.height_of_eye_label = ttk.Label(self.sextant_info_frame, text='Height of Eye ft:')
-        self.temperature_label = ttk.Label(self.sextant_info_frame, text='Temperature C:')
-        self.pressure_label = ttk.Label(self.sextant_info_frame, text='Pressure mb:')
         self.fix_date_label = ttk.Label(self.fix_info_frame, text='Fix Date UTC:')
         self.fix_time_label = ttk.Label(self.fix_info_frame, text='Fix Time UTC:')
 
-        # make date, time, latitude and longitude, speed and course labels bold and green
+        # configure labels
+
         self.dr_date_label.config(font=('Helvetica', 10, 'bold'), foreground='green')
         self.dr_time_label.config(font=('Helvetica', 10, 'bold'), foreground='green')
         self.dr_latitude_label.config(font=('Helvetica', 10, 'bold'), foreground='green')
         self.dr_longitude_label.config(font=('Helvetica', 10, 'bold'), foreground='green')
         self.course_label.config(font=('Helvetica', 10, 'bold'), foreground='green')
         self.speed_label.config(font=('Helvetica', 10, 'bold'), foreground='green')
-        
-        # make the rest of the labels bold and blue
-        self.index_error_label.config(font=('Helvetica', 10, 'bold'), )
-        self.height_of_eye_label.config(font=('Helvetica', 10, 'bold'), )
-        self.temperature_label.config(font=('Helvetica', 10, 'bold'), )
-        self.pressure_label.config(font=('Helvetica', 10, 'bold'), )
         self.fix_date_label.config(font=('Helvetica', 10, 'bold'), foreground='orange')
         self.fix_time_label.config(font=('Helvetica', 10, 'bold'), foreground='orange')
 
@@ -178,10 +164,6 @@ class SightEntryPage(ttk.Frame):
         self.dr_longitude = tk.StringVar(self)
         self.course = tk.StringVar(self)
         self.speed = tk.StringVar(self)
-        self.index_error = tk.StringVar(self)
-        self.height_of_eye = tk.StringVar(self)
-        self.temperature = tk.StringVar(self)
-        self.pressure = tk.StringVar(self)
         self.fix_date = tk.StringVar(self)
         self.fix_time = tk.StringVar(self)
 
@@ -192,12 +174,10 @@ class SightEntryPage(ttk.Frame):
         self.check_hs_format = self.register(InputChecking.check_hs_format)
         self.check_lat_format = self.register(InputChecking.check_lat_format)
         self.check_long_format = self.register(InputChecking.check_long_format)
-
-
-        # create entry fields
+        
+        # create entries
         first_row_width = 12
-        second_row_width = 4
-        third_row_width = 9
+        second_row_width = 12
 
         self.dr_date_entry = ttk.Entry(self.dr_info_frame, 
                                        textvariable=self.dr_date, 
@@ -237,35 +217,6 @@ class SightEntryPage(ttk.Frame):
                                      validatecommand=(self.validate_number, '%P'))
 
 
-        self.index_error_entry = ttk.Entry(self.sextant_info_frame, 
-                                           textvariable=self.index_error, 
-                                           width=second_row_width,
-                                           validate='focusout',
-                                           validatecommand=(self.validate_number, '%P'))
-
-        self.height_of_eye_entry = ttk.Entry(self.sextant_info_frame, 
-                                             textvariable=self.height_of_eye, 
-                                             width=second_row_width,
-                                             validate='focusout',
-                                             validatecommand=(self.validate_number, '%P'))
-
-        self.temperature_entry = ttk.Entry(self.sextant_info_frame,
-                                           width=second_row_width,
-                                           textvariable=self.temperature, 
-                                           validate='focusout',
-                                           validatecommand=(self.validate_number, '%P'),
-                                           text = '10.0'
-                                           )
-        
-
-        self.pressure_entry = ttk.Entry(self.sextant_info_frame, 
-                                        width=second_row_width,
-                                        textvariable=self.pressure, 
-                                        validate='focusout',
-                                        validatecommand=(self.validate_number, '%P', ),
-                                        text = '1010.0'
-                                        )
-
         self.fix_date_entry = ttk.Entry(self.fix_info_frame,
                                         width=first_row_width,
                                         textvariable=self.fix_date,
@@ -286,10 +237,6 @@ class SightEntryPage(ttk.Frame):
                              self.dr_longitude_entry,
                              self.course_entry, 
                              self.speed_entry, 
-                             self.index_error_entry, 
-                             self.height_of_eye_entry,
-                             self.temperature_entry, 
-                             self.pressure_entry, 
                              self.fix_date_entry, 
                              self.fix_time_entry]
         
@@ -299,47 +246,148 @@ class SightEntryPage(ttk.Frame):
                                   self.dr_longitude, 
                                   self.course, 
                                   self.speed, 
-                                  self.index_error, 
-                                  self.height_of_eye, 
-                                  self.temperature, 
-                                  self.pressure, 
                                   self.fix_date, 
                                   self.fix_time]
         
-        # make the entry fields bold 
-        for entry in self.entry_fields:
-            entry.config(font=('Helvetica', 10, 'bold'), justify='center')
+        # # make the entry fields bold 
+        # for entry in self.entry_fields:
+        #     entry.config(font=('Helvetica', 12, 'bold'), justify='center')
+        
+
+        # Grid labels
+        label_padx = 10
+        label_pady = 10
+        entry_padx = 10
+        entry_pady = 10
+
+        # Grid labels, put in center of label frame
+        self.dr_date_label.grid(row=0, column=0, sticky='E', padx=label_padx, pady=label_pady)
+        self.dr_time_label.grid(row=1, column=0, sticky='E', padx=label_padx, pady=label_pady)
+        self.dr_latitude_label.grid(row=2, column=0, sticky='E', padx=label_padx, pady=label_pady)
+        self.dr_longitude_label.grid(row=3, column=0, sticky='E', padx=label_padx, pady=label_pady)
+        self.course_label.grid(row=4, column=0, sticky='E', padx=label_padx, pady=label_pady)
+        self.speed_label.grid(row=5, column=0, sticky='E', padx=label_padx, pady=label_pady)
+
+
+        # Grid entry fields
+        self.dr_date_entry.grid(row=0, column=1, padx=entry_padx, pady=entry_pady)
+        self.dr_time_entry.grid(row=1, column=1, padx=entry_padx, pady=entry_pady)
+        self.dr_latitude_entry.grid(row=2, column=1, padx=entry_padx, pady=entry_pady)
+        self.dr_longitude_entry.grid(row=3, column=1, padx=entry_padx, pady=entry_pady)
+        self.course_entry.grid(row=4, column=1, padx=entry_padx, pady=entry_pady)
+        self.speed_entry.grid(row=5, column=1, padx=entry_padx, pady=entry_pady)
+
+        # Add invisible labels for alignment if needed
+        self.invisble_label_dr = ttk.Label(self.dr_info_frame, text="",)
+        self.invisble_label_dr.grid(row=6, column=0, padx=label_padx, pady=label_pady, sticky = 'NSEW')
+
+        self.invisble_label_dr2 = ttk.Label(self.dr_info_frame, text="")
+        self.invisble_label_dr2.grid(row=6, column=1, padx=label_padx, pady=label_pady, sticky = 'NSEW')
+
+        self.invisble_label_dr3 = ttk.Label(self.dr_info_frame, text="")
+        self.invisble_label_dr3.grid(row=6, column=2, padx=label_padx, pady=label_pady, sticky = 'NSEW')
+        
+      
+        self.dr_info_frame.grid_columnconfigure(0, weight=1)
+        self.dr_info_frame.grid_columnconfigure(1, weight=1)
+        self.dr_info_frame.grid_columnconfigure(2, weight=1)
+        # self.dr_info_frame.grid_columnconfigure(3, weight=1)
+        # self.dr_info_frame.grid_columnconfigure(4, weight=1)
+        # self.dr_info_frame.grid_columnconfigure(5, weight=1)
+
+        # Adjust column and row weights for centering
+        for i in range(6):  # Assuming 7 columns in total
+            self.dr_info_frame.grid_rowconfigure(i, weight=1)
         
         
 
-        # grid labels
-        self.dr_date_label.grid(row=0, column=0, sticky='NSW', padx=10, pady=10, )
-        self.dr_time_label.grid(row=1, column=0, sticky='NSW', padx=10, pady=10)
-        self.dr_latitude_label.grid(row=2, column=0, sticky='NSW', padx=10, pady=10)
-        self.dr_longitude_label.grid(row=3, column=0, sticky='NSW', padx=10, pady=10)
-        self.course_label.grid(row=0, column=2, sticky='NSW', padx=10, pady=10)
-        self.speed_label.grid(row=1, column=2, sticky='NSW', padx=10, pady=10)
 
-        self.index_error_label.grid(row=0, column=0, sticky='NSW', padx=10, pady=10)
-        self.height_of_eye_label.grid(row=1, column=0, sticky='NSW', padx=10, pady=10)
-        self.temperature_label.grid(row=2, column=0, sticky='NSW', padx=10, pady=10)
-        self.pressure_label.grid(row=3, column=0, sticky='NSW', padx=10, pady=10)
+    def create_sextant_info_entry(self):
+        
+        # create labels
+        self.index_error_label = ttk.Label(self.sextant_info_frame, text='Index Error :')
+        self.height_of_eye_label = ttk.Label(self.sextant_info_frame, text='Height of Eye ft:')
+        self.temperature_label = ttk.Label(self.sextant_info_frame, text='Temperature C:')
+        self.pressure_label = ttk.Label(self.sextant_info_frame, text='Pressure mb:')
+        
+        # configure labels
+        self.index_error_label.config(font=('Helvetica', 10, 'bold'), )
+        self.height_of_eye_label.config(font=('Helvetica', 10, 'bold'), )
+        self.temperature_label.config(font=('Helvetica', 10, 'bold'), )
+        self.pressure_label.config(font=('Helvetica', 10, 'bold'), )
+
+        
+        # create string variables
+        self.index_error = tk.StringVar(self)
+        self.height_of_eye = tk.StringVar(self)
+        self.temperature = tk.StringVar(self)
+        self.pressure = tk.StringVar(self)
+
+        # create entries
+        self.index_error_entry = ttk.Entry(self.sextant_info_frame, 
+                                           textvariable=self.index_error, 
+                                           width=12,
+                                           validate='focusout',
+                                           validatecommand=(self.validate_number, '%P'))
+
+        self.height_of_eye_entry = ttk.Entry(self.sextant_info_frame, 
+                                             textvariable=self.height_of_eye, 
+                                             width=12,
+                                             validate='focusout',
+                                             validatecommand=(self.validate_number, '%P'))
+
+        self.temperature_entry = ttk.Entry(self.sextant_info_frame,
+                                           width=12,
+                                           textvariable=self.temperature, 
+                                           validate='focusout',
+                                           validatecommand=(self.validate_number, '%P'),
+                                           text = '10.0'
+                                           )
         
 
-        # grid entry fields
-        self.dr_date_entry.grid(row=0, column=1, sticky='NESW', padx=10, pady=10, )
-        self.dr_time_entry.grid(row=1, column=1, sticky='NESW', padx=10, pady=10)
-        self.dr_latitude_entry.grid(row=2, column=1, sticky='NESW', padx=10, pady=10)
-        self.dr_longitude_entry.grid(row=3, column=1, sticky='NESW', padx=10, pady=10)
-        self.course_entry.grid(row=0, column=3, sticky='NESW', padx=10, pady=10)
-        self.speed_entry.grid(row=1, column=3, sticky='NESW', padx=10, pady=10)
+        self.pressure_entry = ttk.Entry(self.sextant_info_frame, 
+                                        width=12,
+                                        textvariable=self.pressure, 
+                                        validate='focusout',
+                                        validatecommand=(self.validate_number, '%P', ),
+                                        text = '1010.0'
+                                        )
 
-        self.index_error_entry.grid(row=0, column=1, sticky='NS', padx=10, pady=10)
-        self.height_of_eye_entry.grid(row=1, column=1, sticky='NS', padx=10, pady=10)
-        self.temperature_entry.grid(row=2, column=1, sticky='NS', padx=10, pady=10)
-        self.pressure_entry.grid(row=3, column=1, sticky='NS', padx=10, pady=10)
-        # self.fix_date_entry.grid(row=0, column=3, sticky='NS', padx=10, pady=10)
-        # self.fix_time_entry.grid(row=1, column=3, sticky='NS', padx=10, pady=10)
+
+        label_padx = 10
+        label_pady = 10
+        entry_padx = 10
+        entry_pady = 10
+
+
+        # grid labels and entry fields, put in center of label frame
+        self.index_error_label.grid(row=0, column=0, sticky='E', padx=label_padx, pady=label_pady)
+        self.height_of_eye_label.grid(row=1, column=0, sticky='E', padx=label_padx, pady=label_pady)
+        self.temperature_label.grid(row=2, column=0, sticky='E', padx=label_padx, pady=label_pady)
+        self.pressure_label.grid(row=3, column=0, sticky='E', padx=label_padx, pady=label_pady)
+        self.index_error_entry.grid(row=0, column=1, padx=entry_padx, pady=entry_pady)
+        self.height_of_eye_entry.grid(row=1, column=1, padx=entry_padx, pady=entry_pady)
+        self.temperature_entry.grid(row=2, column=1, padx=entry_padx, pady=entry_pady)
+        self.pressure_entry.grid(row=3, column=1, padx=entry_padx, pady=entry_pady)
+
+        # create invisible labels for alignment
+        self.invisible_label3 = ttk.Label(self.sextant_info_frame, text="")
+        self.invisible_label3.grid(row=4, column=0, padx=label_padx, pady=label_pady)
+
+        self.invisible_label4 = ttk.Label(self.sextant_info_frame, text="")
+        self.invisible_label4.grid(row=4, column=1, padx=label_padx, pady=label_pady)
+
+        self.invisible_label5 = ttk.Label(self.sextant_info_frame, text="")
+        self.invisible_label5.grid(row=4, column=2, padx=label_padx, pady=label_pady)
+
+
+        # Adjust column and row weights for centering
+        self.sextant_info_frame.grid_columnconfigure(0, weight=1)
+        self.sextant_info_frame.grid_columnconfigure(1, weight=1)
+        self.sextant_info_frame.grid_columnconfigure(2, weight=1)
+
+        for i in range(4):  # Assuming 4 rows in total
+            self.sextant_info_frame.grid_rowconfigure(i, weight=1)
 
     
     def create_sight_info_entry(self):
