@@ -1,3 +1,5 @@
+
+
 import tkinter as tk
 import os
 import ttkbootstrap as ttk
@@ -24,8 +26,8 @@ class SightEntryPage(ttk.Frame):
         self.create_dr_info_entry()
         self.create_sextant_info_entry()
         self.create_sight_info_entry()
-        self.create_fix_info_treeview()
-        self.create_compute_fix_button() 
+        self.create_fix_info_entry()
+        self.aggregate_entry_fields()
         self.autocompletion_binding()
         self.create_tooltips()
 
@@ -40,12 +42,7 @@ class SightEntryPage(ttk.Frame):
     def create_label_frames(self):
 
         self.sight_frame = ttk.LabelFrame(self, text='Sight List')
-
         self.sight_frame.pack(expand = True, fill = "both")
-        # self.dr_info_frame = ttk.LabelFrame(self.page2, text='DR Info')
-        # self.sextant_info_frame = ttk.LabelFrame(self.page3, text='Sextant Info')
-        # self.sight_info_entry_frame = ttk.LabelFrame(self, text='Sight Info')
-        # self.fix_info_frame = ttk.LabelFrame(self, text='Fix Info')
 
     def create_notebook(self):
 
@@ -57,42 +54,26 @@ class SightEntryPage(ttk.Frame):
         # grid
         self.notebook.pack(expand = True, fill = "both") 
                 
-        self.page1 = ttk.Frame(self.notebook)
-        self.page1.pack(expand = False)
+        self.entry_page_1 = ttk.Frame(self.notebook)
+        self.entry_page_1.pack(expand = False)
+        self.dr_info_frame = self.entry_page_1
 
-        # self.dr_info_frame = ttk.LabelFrame(self.page1, text='DR Info')
-        # self.dr_info_frame.pack(ipadx = 10, ipady = 10, anchor= 'center', expand = False)
+        self.entry_page_2 = ttk.Frame(self.notebook)
+        self.entry_page_2.pack(expand = False )
+        self.sextant_info_frame = self.entry_page_2
 
-        self.dr_info_frame = self.page1
+        self.entry_page_3 = ttk.Frame(self.notebook)
+        self.entry_page_3.pack(expand = False)
+        self.sight_info_entry_frame = self.entry_page_3
 
-        self.page2 = ttk.Frame(self.notebook)
-        self.page2.pack(expand = False )
+        self.entry_page_4 = ttk.Frame(self.notebook)
+        self.entry_page_4.pack(expand = False)
+        self.fix_info_frame = self.entry_page_4
 
-        self.sextant_info_frame = self.page2
-
-        # self.sextant_info_frame = ttk.LabelFrame(self.page2, text='Sextant Info')
-        # self.sextant_info_frame.pack(ipadx=10, ipady=10, anchor='center', expand = False)
-
-        self.page3 = ttk.Frame(self.notebook)
-        self.page3.pack(expand = False)
-
-        self.sight_info_entry_frame = self.page3
-
-        # self.sight_info_entry_frame = ttk.LabelFrame(self.page3, text='Sight Info')
-        # self.sight_info_entry_frame.pack(ipadx=10, ipady=10, anchor='center', expand = True)
-
-        self.page4 = ttk.Frame(self.notebook)
-        self.page4.pack(expand = False)
-
-        self.fix_info_frame = self.page4
-
-        # self.fix_info_frame = ttk.LabelFrame(self.page4, text='Fix Info')
-        # self.fix_info_frame.pack(ipadx=10, ipady=10, anchor='center', expand = True)
-
-        self.notebook.add(self.page1, text='DR Info.')
-        self.notebook.add(self.page2, text='Sextant Info.')
-        self.notebook.add(self.page3, text = 'Sight Entry')
-        self.notebook.add(self.page4, text='Fix Computation')
+        self.notebook.add(self.entry_page_1, text='DR Info.')
+        self.notebook.add(self.entry_page_2, text='Sextant Info.')
+        self.notebook.add(self.entry_page_3, text = 'Sight Entry')
+        self.notebook.add(self.entry_page_4, text='Fix Computation')
        
     def create_sight_treeview(self):
 
@@ -143,8 +124,7 @@ class SightEntryPage(ttk.Frame):
         self.dr_longitude_label = ttk.Label(self.dr_info_frame, text='DR Longitude:')
         self.course_label = ttk.Label(self.dr_info_frame, text='Course:')
         self.speed_label = ttk.Label(self.dr_info_frame, text='Speed kts:')
-        self.fix_date_label = ttk.Label(self.fix_info_frame, text='Fix Date UTC:')
-        self.fix_time_label = ttk.Label(self.fix_info_frame, text='Fix Time UTC:')
+        
 
         # configure labels
 
@@ -154,9 +134,7 @@ class SightEntryPage(ttk.Frame):
         self.dr_longitude_label.config(font=('Helvetica', 10, 'bold'), foreground='green')
         self.course_label.config(font=('Helvetica', 10, 'bold'), foreground='green')
         self.speed_label.config(font=('Helvetica', 10, 'bold'), foreground='green')
-        self.fix_date_label.config(font=('Helvetica', 10, 'bold'), foreground='orange')
-        self.fix_time_label.config(font=('Helvetica', 10, 'bold'), foreground='orange')
-
+                
         # create string variables
         self.dr_date = tk.StringVar(self)
         self.dr_time = tk.StringVar(self)
@@ -164,9 +142,7 @@ class SightEntryPage(ttk.Frame):
         self.dr_longitude = tk.StringVar(self)
         self.course = tk.StringVar(self)
         self.speed = tk.StringVar(self)
-        self.fix_date = tk.StringVar(self)
-        self.fix_time = tk.StringVar(self)
-
+        
         # create validation command instance 
         self.validate_number = self.register(InputChecking.validate_number)
         self.check_time_format = self.register(InputChecking.check_time_format)
@@ -217,28 +193,14 @@ class SightEntryPage(ttk.Frame):
                                      validatecommand=(self.validate_number, '%P'))
 
 
-        self.fix_date_entry = ttk.Entry(self.fix_info_frame,
-                                        width=first_row_width,
-                                        textvariable=self.fix_date,
-                                        validate='focusout',
-                                        validatecommand=(self.check_date_format, '%P')
-                                        )
 
-        self.fix_time_entry = ttk.Entry(self.fix_info_frame, 
-                                        width=first_row_width,
-                                        textvariable=self.fix_time,
-                                        validate='focusout',
-                                        validatecommand=(self.check_time_format, '%P')
-                                        )
-
-        self.entry_fields = [self.dr_date_entry, 
+        self.dr_entry_fields = [self.dr_date_entry, 
                              self.dr_time_entry, 
                              self.dr_latitude_entry, 
                              self.dr_longitude_entry,
                              self.course_entry, 
                              self.speed_entry, 
-                             self.fix_date_entry, 
-                             self.fix_time_entry]
+                             ]
         
         self.dr_text_variables = [self.dr_date, 
                                   self.dr_time, 
@@ -246,12 +208,11 @@ class SightEntryPage(ttk.Frame):
                                   self.dr_longitude, 
                                   self.course, 
                                   self.speed, 
-                                  self.fix_date, 
-                                  self.fix_time]
+                                  ]
         
-        # # make the entry fields bold 
-        # for entry in self.entry_fields:
-        #     entry.config(font=('Helvetica', 12, 'bold'), justify='center')
+        # make the entry fields bold 
+        for entry in self.dr_entry_fields:
+            entry.config(font=('Helvetica', 12, 'bold'), justify='center')
         
 
         # Grid labels
@@ -299,8 +260,6 @@ class SightEntryPage(ttk.Frame):
         for i in range(6):  # Assuming 7 columns in total
             self.dr_info_frame.grid_rowconfigure(i, weight=1)
         
-        
-
 
     def create_sextant_info_entry(self):
         
@@ -353,7 +312,15 @@ class SightEntryPage(ttk.Frame):
                                         text = '1010.0'
                                         )
 
+        self.sextant_entry_fields = [self.index_error_entry,
+                                    self.height_of_eye_entry,
+                                    self.temperature_entry,
+                                    self.pressure_entry] 
 
+        # make the entry fields bold 
+        for entry in self.sextant_entry_fields:
+            entry.config(font=('Helvetica', 12, 'bold'), justify='center')
+        
         label_padx = 10
         label_pady = 10
         entry_padx = 10
@@ -422,7 +389,10 @@ class SightEntryPage(ttk.Frame):
         self.time_entry = ttk.Entry(self.sight_info_entry_frame, textvariable=self.time, width=12)
 
         # sight entry fields
-        self.sight_entry_fields = [self.body_entry, self.hs_entry, self.date_entry, self.time_entry]
+        self.sight_entry_fields = [self.body_entry, 
+                                   self.hs_entry, 
+                                   self.date_entry, 
+                                   self.time_entry]
 
         # make the entry fields bold
         for entry in self.sight_entry_fields:
@@ -491,7 +461,7 @@ class SightEntryPage(ttk.Frame):
             self.sight_info_entry_frame.grid_rowconfigure(i, weight=1)
 
 
-    def create_fix_info_treeview(self):
+    def create_fix_info_entry(self):
         """
         Creates Treeview with fields for:
         Date, 
@@ -500,10 +470,10 @@ class SightEntryPage(ttk.Frame):
         DR Lat
         DR Long
         """
-        self.fix_info_frame = self.page4
+        self.fix_info_frame = self.entry_page_4
 
         # create treeview
-        self.fix_treeview = ttk.Treeview(self.fix_info_frame, height=2)
+        self.fix_treeview = ttk.Treeview(self.fix_info_frame, height=1)
 
         # add columns to treeview
         self.fix_treeview['columns'] = ('Date', 'Computed Lat', 'Computed Long', 'DR Lat', 'DR Long')
@@ -522,42 +492,110 @@ class SightEntryPage(ttk.Frame):
         self.fix_treeview.heading('DR Lat', text='DR Lat', anchor='center')
         self.fix_treeview.heading('DR Long', text='DR Long', anchor='center')
 
-        # Configure the column weights of fix_info_frame.
-        self.fix_info_frame.grid_columnconfigure(0, weight=0)  # Fix date label column
-        self.fix_info_frame.grid_columnconfigure(1, weight=0)  # Fix date entry column
-        self.fix_info_frame.grid_columnconfigure(2, weight=0)  # Fix time label column
-        self.fix_info_frame.grid_columnconfigure(3, weight=0)  # Fix time entry column
-        self.fix_info_frame.grid_columnconfigure(4, weight=1)  # Remaining space for Treeview
 
-        # Labels
-        self.fix_date_label.grid(row=0, column=0, sticky='NSW', padx=5, pady=10)
-        self.fix_date_entry.grid(row=0, column=1, sticky='NSW', padx=5, pady=10)
-        self.fix_time_label.grid(row=0, column=2, sticky='NSW', padx=5, pady=10)
-        self.fix_time_entry.grid(row=0, column=3, sticky='NSW', padx=5, pady=10)
+               
+        first_row_width = 10
 
-        # Place Treeview in the next row, spanning across all columns
-        self.fix_treeview.grid(row=1, column=0, padx=10, pady=10, columnspan=5, sticky='nsew')
+        # create labels
+        self.fix_date_label = ttk.Label(self.fix_info_frame, text='Fix Date UTC:')
+        self.fix_time_label = ttk.Label(self.fix_info_frame, text='Fix Time UTC:')
+
+        # configure labels 
+        self.fix_date_label.config(font=('Helvetica', 10, 'bold'), foreground='orange')
+        self.fix_time_label.config(font=('Helvetica', 10, 'bold'), foreground='orange')
 
 
+        # create string variables 
+        self.fix_date = tk.StringVar(self)
+        self.fix_time = tk.StringVar(self)
 
-    def create_compute_fix_button(self):
-        """
-        Creates Compute Fix button
-        """
+        # create entries
+        self.fix_date_entry = ttk.Entry(self.fix_info_frame,
+                                        width=first_row_width,
+                                        textvariable=self.fix_date,
+                                        validate='focusout',
+                                        validatecommand=(self.check_date_format, '%P')
+                                        )
+
+        self.fix_time_entry = ttk.Entry(self.fix_info_frame, 
+                                        width=first_row_width,
+                                        textvariable=self.fix_time,
+                                        validate='focusout',
+                                        validatecommand=(self.check_time_format, '%P')
+                                        )
+        
+        self.fix_entry_fields = [self.fix_date_entry,
+                                 self.fix_time_entry]
+        
+        # grid entries 
+        self.fix_date_entry.grid(row=0, column=1, padx=10, pady=10)
+        self.fix_time_entry.grid(row=1, column=1, padx=10, pady=10)
+
+        # make the entry fields bold
+        for entry in self.fix_entry_fields:
+            entry.config(font = ('Helvetica', 12, 'bold'), justify = 'center')
+
+        # make the labels bold
+        self.fix_date_label.config(font=('Helvetica', 10, 'bold'))
+        self.fix_time_label.config(font=('Helvetica', 10, 'bold'))
+
+        # grid labels and entry fields, put in center of label frame
+        self.fix_date_label.grid(row=0, column=0, sticky='E', padx=10, pady=10)
+        self.fix_time_label.grid(row=1, column=0, sticky='E', padx=10, pady=10)
+
+        
+        # create label in row 1, spanning across all columns
+        self.fix_label = ttk.Label(self.fix_info_frame, text='')
+
+        # grid label
+        self.fix_label.grid(row=2, column=0, padx=10, pady=10, columnspan=5, sticky='nsew', ipadx=10, ipady=10)
+        
+        # create compute fix button
         self.compute_fix_button = ttk.Button(self.fix_info_frame, text='Compute Fix', 
                                              command=self.on_compute_fix_button_click, style = 'Outline.TButton')
+        
+
+
+        # Place Treeview in the next row, spanning across all columns
+        self.fix_treeview.grid(row=3, column=0, padx=10, pady=10, columnspan=5, sticky='nsew')
+
         # Compute Fix Button
-        self.compute_fix_button.grid(row=2, column=0, padx=10, pady=10, columnspan=5, sticky='nsew')
+        self.compute_fix_button.grid(row=4, column=0, padx=10, pady=10, columnspan=5, sticky='nsew')
+
+
+        # Adjust column and row weights for centering
+        self.fix_info_frame.grid_columnconfigure(0, weight=1)
+        self.fix_info_frame.grid_columnconfigure(1, weight=1)
+        self.fix_info_frame.grid_columnconfigure(2, weight=1)
+
+        # Adjust column and row weights for centering
+        for i in range(5):  # Assuming 4 rows in total
+            self.fix_info_frame.grid_rowconfigure(i, weight=1)
+
+
+
+
+    def aggregate_entry_fields(self):
+        self.fields = self.dr_entry_fields + self.sextant_entry_fields + self.fix_entry_fields
+        
+
+        return self.fields
 
     def on_compute_fix_button_click(self):
-        CapellaSightReduction(
-        self.entry_fields,
+
+        reduction_instance = CapellaSightReduction(
+        self.fields,
         [self.sight_list_treeview,
         self.fix_treeview]
     )
         self.master.page2.refresh_figure()
         self.master.page3.refresh_figure()
 
+        # make text 'Iterations: ' + str(reduction_instance.iterations) + '  ' + 'Fix: ' + str(reduction_instance.fix)
+
+        self.fix_label.config(text='No Error detected. See final fix below. Algo iterations: ' + str(reduction_instance.count +1), foreground='green', font=('Helvetica', 10, 'bold'))
+        
+    
     def autocompletion_binding(self):
         # instantiate autocompletion class
         self.autocomplete = AutoComplete(self.master)
@@ -603,7 +641,8 @@ class SightEntryPage(ttk.Frame):
         # create tooltip for DR info frame
         self.dr_info_frame_tooltip = ToolTip(self.dr_info_frame, self.extractor.get_text('setting_a_dr'))
         
-    
-
+        # create tooltop for sextant info frame
+        self.sextant_info_toolop = ToolTip(self.sextant_info_frame, self.extractor.get_text('adding_sextant_info')) 
+        
 
     

@@ -97,9 +97,9 @@ class EphemerisCalculator:
 
         print(f"{self.body} at {self.datetime} in position {self.latitude}, {self.longitude}")
         print(tabulate.tabulate([
-            ['GHA', f"{gha:.2f}°"],
+            ['GHA', f"{gha}°"],
             ['DEC', f"{dec}"],
-            ['GHAa', f"{ghaa:.2f}°"],
+            ['GHAa', f"{ghaa}°"],
             ['RA', f"{ra}"],
             ['ALT', f"{alt}"],
             ['AZ', f"{az}"],
@@ -136,5 +136,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-    

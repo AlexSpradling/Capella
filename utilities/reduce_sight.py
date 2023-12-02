@@ -4,6 +4,7 @@ from utilities.celestial_engine import Sight, SightSession, SightReduction, Util
 import scipy.stats as stats
 from ttkbootstrap.dialogs import Messagebox
 from utilities.sight_handling import delete_sight
+from tabulate import tabulate
 
 # takes info from newpageone treeview, creates SightSession instance and Sight instances and then creates SightReduction instance
 # adds Fix information to newpageone fix treeview
@@ -53,9 +54,10 @@ class CapellaSightReduction():
             self.fix_treeview.tag_configure('main', font=('Arial Bold', 10))
             self.fix_treeview.insert('', 'end', text='', iid=i, values=i, tags=('main',)) 
 
-
-
     def find_bad_sights(self):
+        '''
+        This method finds erroneous sights using z-scores and then asks the user if they want to delete the erroneous sight.
+        '''
         # find erroneous sights using z-scores
         self.z_scores = stats.zscore(self.sight_reduction_instance.d_array)
 
@@ -88,8 +90,12 @@ class CapellaSightReduction():
                         self.sight_treeview.delete(i)
 
     def systematic_error_handling(self):
-        self.systematic_error = np.mean(self.sight_reduction_instance.d_array)
+        self.count = 0
+        # self.systematic_error = np.mean(self.sight_reduction_instance.d_array)
 
+        # make systematic_error the trimmed mean of d_array
+        self.systematic_error = stats.trim_mean(self.sight_reduction_instance.d_array, .1)
+        
         message = f"Capella found a Constant Error (Uncorrected Index Error + Personal Error) of \
                                 {np.round(self.systematic_error, 2)}'.\n\nWould you like to remove this error? "
 
@@ -118,11 +124,12 @@ class CapellaSightReduction():
 
                 # recursively run CapellaSightReduction
                 CapellaSightReduction(self.info_fields, [self.sight_treeview, self.fix_treeview])
+                self.count += 1
        
         else:
             return
 
-
+    
     def cnav_data_array_wipe(self):
             
             # Sight_session

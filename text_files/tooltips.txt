@@ -17,6 +17,11 @@ ddd-mm.t-E/W
 
 1. Add Index Error, Height of Eye, Temperature, and Pressure
 
+Index Error is in arc minutes and uses the "Off is on and on if off" system. I.E. if your error is 1.2 minutes OFF of the arc, enter it as -1.2
+
+Height of Eye is in feet. 
+
+
 # Sight Planning
 
 To Use:

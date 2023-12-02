@@ -1,8 +1,14 @@
 __pycache__
+build
 dist
 MANIFEST.in
+setup.py
 de421.bsp
 hip_main.dat
-setup.py
-ephemeric_calc.py
-
+gui_pages/__pycache__
+utilities/__pycache__
+Capella.egg-info
+.idea
+__pycache__/__pycache__
+__pycache__/gui_pages/__pycache__
+__pycache__/utilities/__pycache__

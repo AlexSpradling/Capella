@@ -53,6 +53,7 @@ def load_sights_from_clipboard(instance, entries, sight_list_treeview):
     """
     copied_text = pc.paste()
     print(copied_text)
+    
     try:
         # raw copied data
         copied1 = pc.paste()
@@ -83,7 +84,7 @@ def load_sights_from_clipboard(instance, entries, sight_list_treeview):
         
     # if info is formatted incorrectly send error message
     except:
-        print('Error message', file = sys.stderr, flush = True)
+        print('Error message', file = sys.stderr)
         Messagebox.show_warning('Input Error', 'Data Formatted Incorrectly')
         return
 
@@ -131,7 +132,19 @@ def update_sight(entry_list, sight_list_treeview):
 def open_sight_log(event=None):
     """Opens sight_log.txt file in the default text editor, in an OS-agnostic way."""
     # Define the path to the file
-    file_path = os.path.join('new_capella', 'text_files', 'sight_log.txt')
+     # Get the directory where the current script (presumably __main__.py or similar) is located
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # go down one level to the root directory
+    root_dir = os.path.dirname(current_dir)
+
+    # go down one more level to the text_files directory
+    text_files_dir = os.path.join(root_dir, 'text_files')
+
+    # Define the path to the file
+    file_path = os.path.join(text_files_dir, 'sight_log.txt')
+   
+    print(file_path)
 
     # Check if the file exists
     if not os.path.exists(file_path):

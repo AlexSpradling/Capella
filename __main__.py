@@ -25,6 +25,7 @@ class LandingPage(ttk.Frame):
         self.page1 = sight_entry_page.SightEntryPage(self.notebook)
         self.page2 = lop_plot_page.LOPPlotPage(self.notebook)
         self.page3 = fit_slope_page.FitSlopePage(self.notebook)
+        
         self.page4 = sight_planning_page.SightPlanningPage(self.notebook, self.page1)
         self.page5 = azimuth_page.AzimuthPage(self.notebook)
 
@@ -72,7 +73,7 @@ class LandingPage(ttk.Frame):
         self.filemenu.add_command(
             label='Load Sights', command = lambda : load_sights_from_clipboard(
             self.page1,
-            self.page1.entry_fields, 
+            self.page1.fields,
             self.page1.sight_list_treeview
             ),
             accelerator='Ctrl+l'
@@ -80,7 +81,7 @@ class LandingPage(ttk.Frame):
         self.filemenu.add_command(
             label='Save Sights', command= lambda : save_sights_to_clipboard(
             self.page1,
-            self.page1.entry_fields, 
+            self.page1.fields, 
             self.page1.sight_list_treeview
             ),
             accelerator='Ctrl+s'
@@ -97,13 +98,13 @@ class LandingPage(ttk.Frame):
         self.bind_all('<Control-q>', lambda e: self.quit())
         self.bind_all('<Control-l>', lambda e: load_sights_from_clipboard(
             self.page1,
-            self.page1.entry_fields, 
+            self.page1.fields, 
             self.page1.sight_list_treeview
             )
         )
         self.bind_all('<Control-s>', lambda e: save_sights_to_clipboard(
             self.page1,
-            self.page1.entry_fields, 
+            self.page1.fields, 
             self.page1.sight_list_treeview
             )
         )
