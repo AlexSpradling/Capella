@@ -12,3 +12,8 @@ Capella.egg-info
 __pycache__/__pycache__
 __pycache__/gui_pages/__pycache__
 __pycache__/utilities/__pycache__
+__init__.py
+Pipfile
+Pipfile.lock
+capella_cli/fullscreen.py
+text_files/capella_tests.md

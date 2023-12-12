@@ -1,12 +1,13 @@
+
 import tkinter as tk
 import ttkbootstrap as ttk
-import gui_pages.splash_page as splash_page
-import gui_pages.sight_entry_page as sight_entry_page
-import gui_pages.lop_plot_page as lop_plot_page
-import gui_pages.fit_slope_page as fit_slope_page
-import gui_pages.sight_planning_page as sight_planning_page
-import gui_pages.azimuth_page as azimuth_page
-from utilities.sight_handling import load_sights_from_clipboard, save_sights_to_clipboard, open_sight_log
+import capella.gui_pages.splash_page as splash_page
+import capella.gui_pages.sight_entry_page as sight_entry_page
+import capella.gui_pages.lop_plot_page as lop_plot_page
+import capella.gui_pages.fit_slope_page as fit_slope_page
+import capella.gui_pages.sight_planning_page as sight_planning_page
+import capella.gui_pages.azimuth_page as azimuth_page
+from capella.utilities.sight_handling import load_sights_from_clipboard, save_sights_to_clipboard, open_sight_log
 
 # set dpi awareness
 try:
@@ -25,7 +26,6 @@ class LandingPage(ttk.Frame):
         self.page1 = sight_entry_page.SightEntryPage(self.notebook)
         self.page2 = lop_plot_page.LOPPlotPage(self.notebook)
         self.page3 = fit_slope_page.FitSlopePage(self.notebook)
-        
         self.page4 = sight_planning_page.SightPlanningPage(self.notebook, self.page1)
         self.page5 = azimuth_page.AzimuthPage(self.notebook)
 

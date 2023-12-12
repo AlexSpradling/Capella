@@ -1,0 +1,89 @@
+# Setting a DR
+
+1. Fill the DR Date, Time, Course, and Speed Boxes:
+
+Dates are Formatted:
+yyyy-mm-22
+
+Times are Formatted:
+hh:mm:ss
+NOTE: All times are to be kept in UTC.
+
+Positions are Formatted:
+dd-mm.t-N/S
+ddd-mm.t-E/W
+
+# Adding Sextant info
+
+1. Add Index Error, Height of Eye, Temperature, and Pressure
+
+Index Error is in arc minutes and uses the "Off is on and on if off" system. I.E. if your error is 1.2 minutes OFF of the arc, enter it as -1.2
+
+Height of Eye is in feet. 
+
+
+# Sight Planning
+
+To Use:
+
+1. Ensure the green labeled fields on the first page are filled. 
+
+2. Click blue PLANNING button.
+
+3. Select a time of phenomena from the below treeview menu
+
+4. Click PLANNING button AGAIN. 
+
+5. Browse through the pages of this notebook for detailed planning info. 
+
+# Time of Phenomena
+
+AM/PM star time and LAN, a time is given in UTC and LT, all times are the "second estimate" of the phenomena computed using the DR information on page 1. 
+
+To Populate: 
+1. Ensure DR fields are filled on page 1. 
+2. Press Plan
+
+# Visible Bodies
+
+Listed bodies are between 25 deg  and 65 deg of altitude at the time and DR position specified under the
+Planning Controls tab.
+
+# Sorted Triads
+
+This is a sorted list of 3 body sets, weighted by azimuthal distribution, magnitude and altitude.
+
+# Updating a Sight
+
+To Update a Sight Entry: 
+
+1. Click on sight in Sight Entry table. The Sight details will populate in the Sight Entry area.
+2. Make any changes and click Update.
+
+# Deleting a Sight
+
+To Delete a Sight Entry:
+
+1. Click on sight in Sight Entry Table. You can press shift and click to select as many sights as required. 
+2. Press delete. 
+
+# Adding a Sight
+
+To Add a Single Sight:
+1. Make sure all fields are complete in Sight Entry area.
+2. Press Add.
+
+To Add an Averaged Sight:
+1. Select Multiple sights of the same body in the Sight List
+2. The Averaged Hs and Time of the Sights will appear in the Sight Entry Area. 
+3. Press Add. 
+
+# Computing a Fix
+
+To Compute a Fix:
+1. Enter a Date and Time in UTC that you'd like to compute the fix for. 
+2. Click COMPUTE FIX button. 
+3. The Date, Computed Lat, Computed Long, and DR Lat and DR long for the fix date and time are computed in the treeview. 
+
+Systematic Error Detection:
+If Capella's error detection algroithm detects systematic error in your sights (i.e. you've incorrectly estimated your height of eye or index error, etc.), it a message box will appear asking if you'd like to remove the error and recompute. This process is recursive and can happen several times before the algorithm detects a good fix. 
