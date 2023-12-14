@@ -5,6 +5,7 @@ import tkinter as tk
 import os
 import ttkbootstrap as ttk
 from ttkbootstrap.tooltip import ToolTip
+from ttkbootstrap.widgets import Floodgauge
 from ttkwidgets.autocomplete import AutocompleteCombobox
 import capella.utilities.celestial_engine as cnav
 from capella.utilities.sight_handling import add_new_sight, delete_sight, update_sight, UpdateAndAveraging
@@ -554,11 +555,13 @@ class SightEntryPage(ttk.Frame):
         self.fix_time_label.grid(row=1, column=0, sticky='E', padx=10, pady=10)
 
         
-        # create label in row 1, spanning across all columns
-        self.fix_label = ttk.Label(self.fix_info_frame, text='')
+        # create ttk meter
+        from ttkbootstrap.widgets import Progressbar
+        self.meter = Floodgauge(self.fix_info_frame, value = 0, mode = 'determinate', maximum = 100, bootstyle = 'success', mask = "Fix Confidence: {}%", )
 
-        # grid label
-        self.fix_label.grid(row=2, column=0, padx=10, pady=10, columnspan=5, sticky='nsew', ipadx=10, ipady=10)
+        # grid meter
+        self.meter.grid(row=2, column=0, padx=10, pady=10, columnspan=5, sticky='nsew')
+        
         
         # create compute fix button
         self.compute_fix_button = ttk.Button(self.fix_info_frame, text='Compute Fix', 
@@ -579,14 +582,13 @@ class SightEntryPage(ttk.Frame):
         self.fix_info_frame.grid_columnconfigure(2, weight=1)
 
         # Adjust column and row weights for centering
-        for i in range(4):  # Assuming 4 rows in total
+        for i in range(5):  # Assuming 4 rows in total
             self.fix_info_frame.grid_rowconfigure(i, weight=1)
 
 
     def aggregate_entry_fields(self):
         self.fields = self.dr_entry_fields + self.sextant_entry_fields + self.fix_entry_fields
         
-
         return self.fields
 
     def on_compute_fix_button_click(self):
@@ -594,16 +596,14 @@ class SightEntryPage(ttk.Frame):
         reduction_instance = CapellaSightReduction(
         self.fields,
         [self.sight_list_treeview,
-        self.fix_treeview]
+        self.fix_treeview],
+        self.meter
     )
         self.master.page2.refresh_figure()
         self.master.page3.refresh_figure()
 
-        # make text 'Iterations: ' + str(reduction_instance.iterations) + '  ' + 'Fix: ' + str(reduction_instance.fix)
 
-        self.fix_label.config(text='No Error detected. See final fix below. Algo iterations: ' + str(reduction_instance.count +1), foreground='green', font=('Helvetica', 10, 'bold'))
-        
-    
+           
     def autocompletion_binding(self):
         # instantiate autocompletion class
         self.autocomplete = AutoComplete(self.master)

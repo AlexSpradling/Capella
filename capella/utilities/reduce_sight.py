@@ -11,22 +11,25 @@ from tabulate import tabulate
 
 class CapellaSightReduction():
     error_flag = False
-    def __init__(self, info_fields, treeviews):
+    def __init__(self, info_fields, treeviews, meter):
         self.sight_treeview = treeviews[0]
         self.fix_treeview = treeviews[1]
         self.info_fields = info_fields
+        self.meter = meter
         
         self.delete_fix_treeview()
         self.create_sight_session()
         self.create_sights()
         self.create_sight_reduction()
+        self.update_meter()
         self.add_fix_to_treeview()
         self.find_bad_sights()
         self.systematic_error_handling()
+   
         self.cnav_data_array_wipe()
     
     def delete_fix_treeview(self):
-        # delete all items from fix treeview
+     # delete all items from fix treeview
         for i in self.fix_treeview.get_children():
             self.fix_treeview.delete(i)
 
@@ -60,6 +63,22 @@ class CapellaSightReduction():
         # add fix to treeview
         for i in self.sight_reduction_instance.gui_position_table:
             self.fix_treeview.insert('', 'end', text='', iid=i, values=i, tags=('main',)) 
+    
+    def update_meter(self):
+        obj_fun_value = self.sight_reduction_instance.res.fun
+
+        def calculate_confidence(obj_fun_value, max_obj_value=0.01):
+            if obj_fun_value < 0:
+                return 100  # Assuming negative values indicate perfect confidence
+            elif obj_fun_value > max_obj_value:
+                return 0  # No confidence if the value exceeds the maximum
+            else:
+                # Linear scaling of confidence
+                return 100 * (1 - (obj_fun_value / max_obj_value))
+            
+        self.meter_value = calculate_confidence(obj_fun_value)
+        self.meter.configure(value=int(self.meter_value))
+
 
     def find_bad_sights(self):
         '''
@@ -69,29 +88,29 @@ class CapellaSightReduction():
         self.z_scores = stats.zscore(self.sight_reduction_instance.d_array)
 
         # iterate through z-scores and highlight erroneous sights
-        for d in self.sight_reduction_instance.d_array:
-            if abs(self.z_scores[self.sight_reduction_instance.d_array.index(d)]) > 2:
+        for idx, d in enumerate(self.sight_reduction_instance.d_array):
+            if abs(self.z_scores[idx]) > 2.0:
                 # get erroneous sight info
-                erroneous_body = Sight.body_array[SightReduction.d_array.index(d)]
-                erroneous_sighttime = Sight.sight_times[SightReduction.d_array.index(d)]
+                erroneous_body = Sight.body_array[idx]
+                # yyyy-mm-dd hh:mm:ss
+                erroneous_sighttime = Sight.sight_times[idx].strftime('%Y-%m-%d %H:%M:%S')
                 
                 # create tag
                 self.sight_treeview.tag_configure('red', foreground='red', font=('Arial Bold', 15))
 
                 # highlight erroneous sight
-                self.sight_treeview.item(SightReduction.d_array.index(d), tags=('red',))
+                self.sight_treeview.item(idx, tags=('red',))
 
                 # ask user if they want to delete erroneous sight
                 erroneous_answer = Messagebox.show_question(
-                    f'{erroneous_body} observation at {erroneous_sighttime} is likely erroneous.\nCorrect the '
-                    f'observation or remove from Sight List, otherwise consider fix and analysis unreliable.'
-                    f'\n\nWould you like to delete this observation?')
+                    f'{erroneous_body} observation at {erroneous_sighttime} is likely erroneous.\n\n Correct the observation or remove from Sight List, otherwise consider fix and analysis unreliable. \
+                    \n\n Would you like to delete this observation?')
                 
                 # if yes delete erroneous sight
                 if erroneous_answer == 'Yes':
                     error_flag = True
                     # set selection 
-                    self.sight_treeview.selection_set(SightReduction.d_array.index(d))
+                    self.sight_treeview.selection_set(idx)
 
                     # delete erroneous sight
                     for i in self.sight_treeview.selection():
@@ -99,14 +118,19 @@ class CapellaSightReduction():
                     error_flag = False
 
     def systematic_error_handling(self):
+        """
+        This method finds the systematic error and asks the user if they want to remove it.
+        """
+       
         self.count = 0
         # self.systematic_error = np.mean(self.sight_reduction_instance.d_array)
 
         # make systematic_error the trimmed mean of d_array
         self.systematic_error = stats.trim_mean(self.sight_reduction_instance.d_array, .1)
         
-        message = f"Capella found a Constant Error (Uncorrected Index Error + Personal Error) of \
-                                {np.round(self.systematic_error, 2)}'.\n\nWould you like to remove this error? "
+        message = f"Capella found a Constant Error (Uncorrected Index Error + Personal Error) of: {np.round(self.systematic_error, 2)}'.\
+        \n\n\n Would you like to remove this error? "
+
 
         if abs(self.systematic_error) >=.25:
             error_flag = True
@@ -133,11 +157,10 @@ class CapellaSightReduction():
                 self.cnav_data_array_wipe()
 
                 # recursively run CapellaSightReduction
-                CapellaSightReduction(self.info_fields, [self.sight_treeview, self.fix_treeview])
+                CapellaSightReduction(self.info_fields, [self.sight_treeview, self.fix_treeview], self.meter)
                 self.count += 1
                 error_flag = False
 
-       
         else:
             return
 

@@ -15,11 +15,20 @@ ddd-mm.t-E/W
 
 # Adding Sextant info
 
-1. Add Index Error, Height of Eye, Temperature, and Pressure
+Index Error, Height of Eye, Temperature, and Pressure Boxes:
 
-Index Error is in arc minutes and uses the "Off is on and on if off" system. I.E. if your error is 1.2 minutes OFF of the arc, enter it as -1.2
+1. Index Error 
+Index Error is in arc minutes and uses the "off is on and on is off" system. E.G. if your error is 1.2 minutes ON the arc, enter it as -1.2
 
-Height of Eye is in feet. 
+2. Height of Eye
+Height of Eye is entered in feet. 
+
+3. Temperature
+Temperature is in Celcius, 20 is the standard amount to use. 
+
+4. Pressure
+Pressure is in millibars, 1010 is the standard amount to use. 
+
 
 
 # Sight Planning

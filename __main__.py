@@ -1,4 +1,4 @@
-
+# Author: Alex Spradling
 import tkinter as tk
 import ttkbootstrap as ttk
 import capella.gui_pages.splash_page as splash_page
@@ -8,6 +8,12 @@ import capella.gui_pages.fit_slope_page as fit_slope_page
 import capella.gui_pages.sight_planning_page as sight_planning_page
 import capella.gui_pages.azimuth_page as azimuth_page
 from capella.utilities.sight_handling import load_sights_from_clipboard, save_sights_to_clipboard, open_sight_log
+
+
+"""
+Capella is a celestial navigation program that allows the user to enter sights, plot lines of position, and perform sight reduction calculations. The goal is to provide a simple, intuitive interface for performing celestial navigation calculations that is also robust and uses modern mathematical methods for sight reduction evaluation. 
+
+"""
 
 # set dpi awareness
 try:
@@ -142,6 +148,3 @@ if __name__ == '__main__':
 
     # run mainloop
     root.mainloop()
-
-    # print geometry
-    print(root.geometry())

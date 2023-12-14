@@ -52,12 +52,12 @@ def save_sights_to_clipboard(instance, entries, sight_list_treeview):
     pc.copy(copied_data)
 
     return dr_copy, sextant_copy, fix_copy, sight_copy
+
 def load_sights_from_clipboard(instance, entries, sight_list_treeview):
     """
     Loads Sight Session DR info and Sights into the Session info Sights Treeview from the clipboard.
     """
     copied_text = pc.paste()
-    print(copied_text)
 
     try:
         # Split the copied text into sections
@@ -94,7 +94,6 @@ def load_sights_from_clipboard(instance, entries, sight_list_treeview):
                                            values=sight_data, tags=('main',))
                 instance.counter += 1   
     except:
-        print('Error message', file = sys.stderr)
         Messagebox.show_warning(title = 'Input Error', message = 'Data not in recognized format, check clipboard data.')
         return
     
@@ -171,7 +170,6 @@ def open_sight_log(event=None):
     # Define the path to the file
     file_path = os.path.join(text_files_dir, 'sight_log.txt')
    
-    print(file_path)
 
     # Check if the file exists
     if not os.path.exists(file_path):
