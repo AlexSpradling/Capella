@@ -1151,8 +1151,8 @@ class SightReduction(Sight):
             long_sign = "W"
             self.print_longitude = Angle(degrees=(self.fit_longitude.degrees * -1))
 
-        self.final_l_string = f'L {Utilities.hmt_str(self.print_latitude.degrees)} {lat_sign}'
-        self.final_lon_string = f'λ {Utilities.hmt_str(self.print_longitude.degrees)} {long_sign}'
+        self.final_l_string = f'{Utilities.hmt_str(self.print_latitude.degrees)} {lat_sign}'
+        self.final_lon_string = f'{Utilities.hmt_str(self.print_longitude.degrees)} {long_sign}'
 
         SightReduction.position_array_l.append(self.final_l_string)
         SightReduction.position_array_lon.append(self.final_lon_string)
@@ -1695,7 +1695,7 @@ class SightReduction(Sight):
 
         self.bigdata = (tabulate(Sight.data_table, headers, tablefmt='rst'))
         gui_position_data = (
-            SightSession.dr_details[0][9].strftime("%Y-%m-%d %H:%M:%S UTC"), self.final_l_string, self.final_lon_string,
+            SightSession.dr_details[0][9].strftime("%Y-%m-%d %H:%M:%S"), self.final_l_string, self.final_lon_string,
             Utilities.print_position(self.dr_lat, latitude=True), Utilities.print_position(self.dr_long, latitude=False))
         SightReduction.gui_position_table.append(gui_position_data)
 

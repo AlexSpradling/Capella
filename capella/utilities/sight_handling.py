@@ -5,6 +5,7 @@ import numpy as np
 from skyfield.api import Angle
 import pyperclip as pc
 import re
+import ttkbootstrap as ttk
 from ttkbootstrap.dialogs import Messagebox
 import datetime as dt
 import capella.utilities.celestial_engine as celestial_engine
@@ -14,80 +15,89 @@ from tabulate import tabulate
 
 def save_sights_to_clipboard(instance, entries, sight_list_treeview):
     """
-     Saves Sight Session and Sight info from Sight List trv and Session Data section, formats it as a Markdown table and saves to clipboard.
-     """
+    Saves Sight Session and Sight info from Sight List trv and Session Data section, 
+    formats it as a Markdown table and saves to clipboard.
+    """
     session_array = []
     sight_array = []
 
-    session_array = []
-    sight_array = []
+    # Retrieve session data
     session = [ent.get() for ent in entries]
     session_array.append(session)
+
+    # Retrieve sight data
     for record in sight_list_treeview.get_children():
         sight = sight_list_treeview.item(record, 'values')
         sight_array.append(sight)
-    # create Markdown table
-    session_headers = ["DR Date", "DR Time", "DR L", "DR λ", "Course", "Speed", "I.C.", "H.O.E", "Temp.",
-                        "Press.", "Fix Date", "Fix Time"]
-    session_copy = tabulate(session_array, headers=session_headers, tablefmt="github")
+
+    # Create Markdown tables with headers
+    session_headers = ["DR Date", "DR Time", "DR L", "DR λ", "Course", "Speed"]
+    sextant_headers = ["I.C.", "H.O.E", "Temp.", "Press."]
+    fix_headers = ["Fix Date", "Fix Time"]
     sight_headers = ["Body", "Hs", "Date", "Time"]
 
-    sight_copy = tabulate(sight_array, headers=sight_headers, tablefmt="github")
+    # Split session data into separate sections
+    dr_data = session_array[0][:6]
+    sextant_data = [session_array[0][6:10]]
+    fix_data = [session_array[0][10:]]
 
-    copied_data = session_copy + "\n \n" + sight_copy
+    # Format each section with headers
+    dr_copy = "### 1. Dead Reckoning Information\n" + tabulate([dr_data], headers=session_headers, tablefmt="github")
+    sextant_copy = "### 2. Sextant Information\n" + tabulate(sextant_data, headers=sextant_headers, tablefmt="github")
+    fix_copy = "### 3. Fix Date and Time Information\n" + tabulate(fix_data, headers=fix_headers, tablefmt="github")
+    sight_copy = "### 4. Sights\n" + tabulate(sight_array, headers=sight_headers, tablefmt="github")
+
+    # Combine all data
+    copied_data = "\n\n".join([dr_copy, sextant_copy, fix_copy, sight_copy])
     pc.copy(copied_data)
 
-    return session_copy, sight_copy
-
-
+    return dr_copy, sextant_copy, fix_copy, sight_copy
 def load_sights_from_clipboard(instance, entries, sight_list_treeview):
     """
     Loads Sight Session DR info and Sights into the Session info Sights Treeview from the clipboard.
-
-    Parameters
-    ----------
-    entries : list
-        List text entry widgets from the Session info frame.
-    sight_list_treeview : ttk.Treeview
-        Treeview widget from the Sight data frame.
     """
     copied_text = pc.paste()
     print(copied_text)
-    
+
     try:
-        # raw copied data
-        copied1 = pc.paste()
-        copied1 = re.sub(r" ", '', copied1)
-        
-        # split into session data chunk
-        split = str(copied1.split()[2]).strip("|")
-        length = len(split)
+        # Split the copied text into sections
+        sections = re.split(r'### \d\.\s.*\n', copied_text)
+        sections = [section for section in sections if section.strip()]
 
-        # further slice session chunk and populate Session info text fields
-        for i, value in enumerate(split.split('|')[:12]):
-            entries[i].delete(0, 'end')
-            entries[i].insert(0, value)
+        # Process DR information (section 0)
+        dr_rows = sections[0].strip().split('\n')[2:]  # Skip headers and divider rows
+        dr_data = [cell.strip() for cell in dr_rows[0].split('|') if cell.strip()]
+        for j, value in enumerate(dr_data):
+            entries[j].delete(0, 'end')
+            entries[j].insert(0, value)
 
-        # clear Sight Entry treeview
+        # Process Sextant information and Fix Date and Time (sections 1 and 2)
+        for i in range(1, 3):
+            rows = sections[i].strip().split('\n')[2:]  # Skip headers and divider rows
+            data = [cell.strip() for cell in rows[0].split('|') if cell.strip()]
+            for j, value in enumerate(data):
+                entry_index = 6 + (i - 1) * 4 + j  # Adjust index based on section
+                entries[entry_index].delete(0, 'end')
+                entries[entry_index].insert(0, value)
+
+        # Clear Sight Entry treeview
         for i in sight_list_treeview.get_children():
             sight_list_treeview.delete(i)
 
-        # populate Sight Entry treeview
-        for i in range(length):
-            try:
-                sight_list_treeview.tag_configure('main', font=('Arial Bold', 10))
+        # Populate Sight Entry treeview (section 3)
+        if len(sections) > 3:
+            sights = sections[3].strip().split('\n')[2:]  # Skip headers and divider rows
+            for i, sight in enumerate(sights):
+                sight_data = [cell.strip() for cell in sight.split('|') if cell.strip()]
+                sight_list_treeview.tag_configure('main', font=('Arial Bold', 15))
                 sight_list_treeview.insert('', 'end', text='', iid=i, 
-                    values=(copied1.split()[i + 5]).strip("|").split('|'), tags=('main',))
-                instance.counter += 1
-            except:
-                pass 
-         
-
-    # if info is formatted incorrectly send error message
+                                           values=sight_data, tags=('main',))
+                instance.counter += 1   
     except:
         print('Error message', file = sys.stderr)
         Messagebox.show_warning(title = 'Input Error', message = 'Data not in recognized format, check clipboard data.')
         return
+    
     # check sight info for errors
     for i, record in enumerate(sight_list_treeview.get_children()):
         sight = sight_list_treeview.item(record, 'values')
@@ -112,7 +122,7 @@ def add_new_sight(instance, bodies_entry_box, entry_boxes, sight_list_treeview):
         # Get values from entry boxes and add to Treeview
         values = [entry.get() for entry in entry_boxes]
 
-        sight_list_treeview.tag_configure('main', font=('Arial Bold', 10))
+        sight_list_treeview.tag_configure('main', font=('Arial Bold', 15))
         sight_list_treeview.insert('', 'end', text='', iid=instance.counter, values=values, tags=('main',))
         
         # Clear entry boxes
@@ -138,7 +148,7 @@ def update_sight(entry_list, sight_list_treeview):
     """Updates entry fields in 'Sight Entry' section"""
     selected = sight_list_treeview.focus()
     selection = sight_list_treeview.item(selected, 'values')
-    sight_list_treeview.tag_configure('main', font=('Arial Bold', 10))
+    sight_list_treeview.tag_configure('main', font=('Arial Bold', 15))
     sight_list_treeview.item(selected, text='', values=(entry_list[0].get(), 
                                                         entry_list[1].get(), 
                                                         entry_list[2].get(), 

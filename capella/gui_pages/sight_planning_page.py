@@ -193,7 +193,7 @@ class SightPlanningPage(ttk.Frame):
 
     def create_time_of_phenomena_treeview(self):
         # add treeview to page 2
-        self.time_of_phenomena_treeview = ttk.Treeview(self.phenoma_frame)
+        self.time_of_phenomena_treeview = ttk.Treeview(self.phenoma_frame, style = 'danger.Treeview')
         
         # grid
         self.time_of_phenomena_treeview.grid(row=0, column=0, padx=10, pady=10, sticky='NESW')

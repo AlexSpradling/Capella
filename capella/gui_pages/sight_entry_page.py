@@ -79,9 +79,12 @@ class SightEntryPage(ttk.Frame):
         self.notebook.add(self.entry_page_4, text='Fix Computation')
        
     def create_sight_treeview(self):
+        # Configure the style for the treeview
+        style = ttk.Style()
+        style.configure('info.Treeview', rowheight=50) 
 
         # create treeview
-        self.sight_list_treeview = ttk.Treeview(self.sight_frame, height=10)
+        self.sight_list_treeview = ttk.Treeview(self.sight_frame, height=10, style = 'info.Treeview')
 
         # With these lines:
         self.sight_frame.grid_rowconfigure(0, weight=1)
@@ -102,10 +105,8 @@ class SightEntryPage(ttk.Frame):
         self.sight_list_treeview.heading('Hs', text='Hs', anchor='center')
         self.sight_list_treeview.heading('Date', text='Date', anchor='center')
         self.sight_list_treeview.heading('Time', text='Time', anchor='center')
-        
-        # 
 
-               
+                       
 
     def create_dr_info_entry(self):
         """
@@ -462,7 +463,7 @@ class SightEntryPage(ttk.Frame):
         self.sight_info_entry_frame.grid_columnconfigure(1, weight=1)
         self.sight_info_entry_frame.grid_columnconfigure(2, weight=1)
 
-        for i in range(5):  # 5 rows in total
+        for i in range(4):  # 5 rows in total
             self.sight_info_entry_frame.grid_rowconfigure(i, weight=1)
 
 
@@ -477,17 +478,21 @@ class SightEntryPage(ttk.Frame):
         """
         self.fix_info_frame = self.entry_page_4
 
-        # create treeview
-        self.fix_treeview = ttk.Treeview(self.fix_info_frame, height=1)
+        style = ttk.Style()
+        style.configure('info.Treeview', rowheight=50) 
+
+                # create treeview
+        self.fix_treeview = ttk.Treeview(self.fix_info_frame, height=1, style = 'warning.Treeview')
+
 
         # add columns to treeview
         self.fix_treeview['columns'] = ('Date', 'Computed Lat', 'Computed Long', 'DR Lat', 'DR Long')
         self.fix_treeview.column('#0', width=0, stretch='no')
-        self.fix_treeview.column('Date', anchor='center', width=110)
-        self.fix_treeview.column('Computed Lat', anchor='center', width=100)
-        self.fix_treeview.column('Computed Long', anchor='center', width=100)
-        self.fix_treeview.column('DR Lat', anchor='center', width=100)
-        self.fix_treeview.column('DR Long', anchor='center', width=100)
+        self.fix_treeview.column('Date', anchor='center', width=220, stretch='yes')
+        self.fix_treeview.column('Computed Lat', anchor='center', width=80)
+        self.fix_treeview.column('Computed Long', anchor='center', width=80)
+        self.fix_treeview.column('DR Lat', anchor='center', width=80)
+        self.fix_treeview.column('DR Long', anchor='center', width=80)
 
         # add headings to treeview
         self.fix_treeview.heading('#0', text='', anchor='w')
@@ -574,10 +579,8 @@ class SightEntryPage(ttk.Frame):
         self.fix_info_frame.grid_columnconfigure(2, weight=1)
 
         # Adjust column and row weights for centering
-        for i in range(5):  # Assuming 4 rows in total
+        for i in range(4):  # Assuming 4 rows in total
             self.fix_info_frame.grid_rowconfigure(i, weight=1)
-
-
 
 
     def aggregate_entry_fields(self):

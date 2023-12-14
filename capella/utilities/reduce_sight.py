@@ -10,6 +10,7 @@ from tabulate import tabulate
 # adds Fix information to newpageone fix treeview
 
 class CapellaSightReduction():
+    error_flag = False
     def __init__(self, info_fields, treeviews):
         self.sight_treeview = treeviews[0]
         self.fix_treeview = treeviews[1]
@@ -49,9 +50,15 @@ class CapellaSightReduction():
     
 
     def add_fix_to_treeview(self):
+
+        # tag configure
+        self.fix_treeview.tag_configure('main', font=('Arial Bold', 15))
+
+        # add blank first row to treeview for spacing
+        self.fix_treeview.insert('', 'end', text='', iid='blank', values='', tags=('main',))
+        
         # add fix to treeview
         for i in self.sight_reduction_instance.gui_position_table:
-            self.fix_treeview.tag_configure('main', font=('Arial Bold', 10))
             self.fix_treeview.insert('', 'end', text='', iid=i, values=i, tags=('main',)) 
 
     def find_bad_sights(self):
@@ -69,7 +76,7 @@ class CapellaSightReduction():
                 erroneous_sighttime = Sight.sight_times[SightReduction.d_array.index(d)]
                 
                 # create tag
-                self.sight_treeview.tag_configure('red', foreground='red', font=('Arial Bold', 10))
+                self.sight_treeview.tag_configure('red', foreground='red', font=('Arial Bold', 15))
 
                 # highlight erroneous sight
                 self.sight_treeview.item(SightReduction.d_array.index(d), tags=('red',))
@@ -82,12 +89,14 @@ class CapellaSightReduction():
                 
                 # if yes delete erroneous sight
                 if erroneous_answer == 'Yes':
+                    error_flag = True
                     # set selection 
                     self.sight_treeview.selection_set(SightReduction.d_array.index(d))
 
                     # delete erroneous sight
                     for i in self.sight_treeview.selection():
                         self.sight_treeview.delete(i)
+                    error_flag = False
 
     def systematic_error_handling(self):
         self.count = 0
@@ -100,6 +109,7 @@ class CapellaSightReduction():
                                 {np.round(self.systematic_error, 2)}'.\n\nWould you like to remove this error? "
 
         if abs(self.systematic_error) >=.25:
+            error_flag = True
             error_message = Messagebox.show_question(message, 'Systematic Error',)
             if self.systematic_error < 0:
                 self.systematic_error = abs(self.systematic_error / 60)
@@ -125,6 +135,8 @@ class CapellaSightReduction():
                 # recursively run CapellaSightReduction
                 CapellaSightReduction(self.info_fields, [self.sight_treeview, self.fix_treeview])
                 self.count += 1
+                error_flag = False
+
        
         else:
             return
