@@ -1,10 +1,8 @@
 import numpy as np
 from skyfield.api import Angle
-from capella.utilities.celestial_engine import Sight, SightSession, SightReduction, Utilities
+from utilities.celestial_engine import Sight, SightSession, SightReduction, Utilities
 import scipy.stats as stats
 from ttkbootstrap.dialogs import Messagebox
-from capella.utilities.sight_handling import delete_sight
-from tabulate import tabulate
 
 # takes info from newpageone treeview, creates SightSession instance and Sight instances and then creates SightReduction instance
 # adds Fix information to newpageone fix treeview

@@ -1,13 +1,13 @@
 # Author: Alex Spradling
 import tkinter as tk
 import ttkbootstrap as ttk
-import capella.gui_pages.splash_page as splash_page
-import capella.gui_pages.sight_entry_page as sight_entry_page
-import capella.gui_pages.lop_plot_page as lop_plot_page
-import capella.gui_pages.fit_slope_page as fit_slope_page
-import capella.gui_pages.sight_planning_page as sight_planning_page
-import capella.gui_pages.azimuth_page as azimuth_page
-from capella.utilities.sight_handling import load_sights_from_clipboard, save_sights_to_clipboard, open_sight_log
+import gui_pages.splash_page as splash_page
+import gui_pages.sight_entry_page as sight_entry_page
+import gui_pages.lop_plot_page as lop_plot_page
+import gui_pages.fit_slope_page as fit_slope_page
+import gui_pages.sight_planning_page as sight_planning_page
+import gui_pages.azimuth_page as azimuth_page
+from utilities.sight_handling import load_sights_from_clipboard, save_sights_to_clipboard, open_sight_log
 
 
 """

@@ -2,13 +2,13 @@ import os
 import tkinter as tk
 import ttkbootstrap as ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-import capella.utilities.celestial_engine as celestial_engine
-from capella.utilities.sight_planning import SightSessionPlanning
-from capella.gui_pages.sight_entry_page import SightEntryPage
-from capella.utilities.autocompletion import AutoComplete
+import utilities.celestial_engine as celestial_engine
+from utilities.sight_planning import SightSessionPlanning
+from gui_pages.sight_entry_page import SightEntryPage
+from utilities.autocompletion import AutoComplete
 from ttkbootstrap.dialogs import Messagebox
 from ttkbootstrap.tooltip import ToolTip
-from capella.utilities.tooltips import TextExtractor
+from utilities.tooltips import TextExtractor
 
 class SightPlanningPage(ttk.Frame):
     def __init__(self, container, PageOne):

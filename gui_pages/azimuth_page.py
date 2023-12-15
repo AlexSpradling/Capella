@@ -3,13 +3,13 @@ import ttkbootstrap as ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 import datetime as dt
 from ttkwidgets.autocomplete import AutocompleteCombobox
-import capella.utilities.celestial_engine as cnav
+import utilities.celestial_engine as cnav
 from ttkbootstrap.dialogs import Messagebox
 from tkinter import simpledialog
 import numpy as np
 import geomag as gm
 from skyfield.api import Angle, utc
-from capella.utilities.autocompletion import AutoComplete
+from utilities.autocompletion import AutoComplete
 
 class AzimuthPage(ttk.Frame):
     

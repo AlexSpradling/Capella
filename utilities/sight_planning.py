@@ -1,4 +1,4 @@
-import capella.utilities.celestial_engine as cnav
+import utilities.celestial_engine as cnav
 import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.dialogs import Messagebox

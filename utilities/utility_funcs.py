@@ -17,7 +17,7 @@ from matplotlib.patches import Ellipse
 from tabulate import tabulate
 import scipy.optimize as optimize
 
-from capella.utilities.dead_reckoning import DRCalc
+from utilities.dead_reckoning import DRCalc
 
 
 

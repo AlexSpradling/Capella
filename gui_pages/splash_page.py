@@ -1,12 +1,6 @@
 import tkinter as tk
 import os
 import ttkbootstrap as ttk
-from collections import Counter
-import datetime as dt
-import capella.utilities.celestial_engine as cnav
-from ttkbootstrap.dialogs import Messagebox
-from ttkbootstrap import Style
-from capella.gui_pages.sight_entry_page import SightEntryPage
 
 class SplashPage(ttk.Frame):
     def __init__(self, container):

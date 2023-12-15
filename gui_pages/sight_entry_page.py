@@ -7,13 +7,13 @@ import ttkbootstrap as ttk
 from ttkbootstrap.tooltip import ToolTip
 from ttkbootstrap.widgets import Floodgauge
 from ttkwidgets.autocomplete import AutocompleteCombobox
-import capella.utilities.celestial_engine as cnav
-from capella.utilities.sight_handling import add_new_sight, delete_sight, update_sight, UpdateAndAveraging
-from capella.utilities.reduce_sight import CapellaSightReduction
-from capella.utilities.input_checking import InputChecking
-from capella.utilities.autocompletion import AutoComplete
-from capella.utilities.sight_planning import SightSessionPlanning
-from capella.utilities.tooltips import TextExtractor
+import utilities.celestial_engine as cnav
+from utilities.sight_handling import add_new_sight, delete_sight, update_sight, UpdateAndAveraging
+from utilities.reduce_sight import CapellaSightReduction
+from utilities.input_checking import InputChecking
+from utilities.autocompletion import AutoComplete
+from utilities.sight_planning import SightSessionPlanning
+from utilities.tooltips import TextExtractor
 
 class SightEntryPage(ttk.Frame):
     
@@ -432,7 +432,7 @@ class SightEntryPage(ttk.Frame):
                                             self.time_entry],
                                             self.sight_list_treeview
                                      ),
-                                     style='Outline.TButton'
+                                     style='Warning.TButton'
 
         )
 
@@ -444,13 +444,13 @@ class SightEntryPage(ttk.Frame):
                                             self.time_entry],
                                             self.sight_list_treeview
                                         ),
-                                        style='Outline.TButton'
+                                        style='Warning.TButton'
                                                                  
         )
 
         self.delete_button = ttk.Button(self.sight_info_entry_frame, text='Delete', 
                                         command = lambda: delete_sight(self.sight_list_treeview),
-                                        style='Outline.TButton'
+                                        style='Warning.TButton'
                                         
         )
 
@@ -557,7 +557,7 @@ class SightEntryPage(ttk.Frame):
         
         # create ttk meter
         from ttkbootstrap.widgets import Progressbar
-        self.meter = Floodgauge(self.fix_info_frame, value = 0, mode = 'determinate', maximum = 100, bootstyle = 'success', mask = "Fix Confidence: {}%", )
+        self.meter = Floodgauge(self.fix_info_frame, value = 0, mode = 'determinate', maximum = 100, bootstyle = 'primary.Horizontal.TFloodgauge', mask = "Fix Confidence: {}%", )
 
         # grid meter
         self.meter.grid(row=2, column=0, padx=10, pady=10, columnspan=5, sticky='nsew')
@@ -565,7 +565,7 @@ class SightEntryPage(ttk.Frame):
         
         # create compute fix button
         self.compute_fix_button = ttk.Button(self.fix_info_frame, text='Compute Fix', 
-                                             command=self.on_compute_fix_button_click, style = 'Outline.TButton')
+                                             command=self.on_compute_fix_button_click, style = 'danger.outline.TButton')
         
 
 
@@ -657,3 +657,9 @@ class SightEntryPage(ttk.Frame):
         
 
     
+#TODO - Tooltips for Sights
+#TODO - Autoformatting for dates/times
+#TODO - make Sight planning controls larger 
+#TODO - make sight planning controls more intuitive
+#TODO - fix multiple message box screen shift bug
+#TODO - Add averaging tooltip 

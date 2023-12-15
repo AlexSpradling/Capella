@@ -16,8 +16,8 @@ import matplotlib.dates as mdates
 from matplotlib.patches import Ellipse
 from tabulate import tabulate
 import scipy.optimize as optimize
-from capella.utilities.utility_funcs import Utilities
-from capella.utilities.dead_reckoning import DRCalc
+from utilities.utility_funcs import Utilities
+from utilities.dead_reckoning import DRCalc
 
 planets = load('de421.bsp')
 ts = load.timescale()

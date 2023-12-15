@@ -8,9 +8,9 @@ import re
 import ttkbootstrap as ttk
 from ttkbootstrap.dialogs import Messagebox
 import datetime as dt
-import capella.utilities.celestial_engine as celestial_engine
-from capella.utilities.sight_planning import SightSessionPlanning
-from capella.utilities.input_checking import InputChecking
+import utilities.celestial_engine as celestial_engine
+from utilities.sight_planning import SightSessionPlanning
+from utilities.input_checking import InputChecking
 from tabulate import tabulate
 
 def save_sights_to_clipboard(instance, entries, sight_list_treeview):

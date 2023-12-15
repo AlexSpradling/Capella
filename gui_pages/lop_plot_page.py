@@ -1,7 +1,7 @@
 import tkinter as tk
 import ttkbootstrap as ttk
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
-import capella.utilities.celestial_engine as celestial_engine
+import utilities.celestial_engine as celestial_engine
 
 class LOPPlotPage(ttk.Frame):
     def __init__(self, container):
