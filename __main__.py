@@ -1,6 +1,7 @@
 # Author: Alex Spradling
 import tkinter as tk
 import ttkbootstrap as ttk
+from ttkbootstrap.window import Window
 import gui_pages.splash_page as splash_page
 import gui_pages.sight_entry_page as sight_entry_page
 import gui_pages.lop_plot_page as lop_plot_page
@@ -8,22 +9,15 @@ import gui_pages.fit_slope_page as fit_slope_page
 import gui_pages.sight_planning_page as sight_planning_page
 import gui_pages.azimuth_page as azimuth_page
 from utilities.sight_handling import load_sights_from_clipboard, save_sights_to_clipboard, open_sight_log
-
+from ttkbootstrap.utility import enable_high_dpi_awareness
 
 """
 Capella is a celestial navigation program that allows the user to enter sights, plot lines of position, and perform sight reduction calculations. The goal is to provide a simple, intuitive interface for performing celestial navigation calculations that is also robust and uses modern mathematical methods for sight reduction evaluation. 
 
 """
 
-# set dpi awareness
-try:
-    from ctypes import windll
-    windll.shcore.SetProcessDpiAwareness(2)
-except:
-    pass
-
-# create ttkbootstrap page
 class LandingPage(ttk.Frame):
+
     def create_notebook(self):
         # create pages
         self.notebook = ttk.Notebook(self)
@@ -34,6 +28,7 @@ class LandingPage(ttk.Frame):
         self.page3 = fit_slope_page.FitSlopePage(self.notebook)
         self.page4 = sight_planning_page.SightPlanningPage(self.notebook, self.page1)
         self.page5 = azimuth_page.AzimuthPage(self.notebook)
+
 
     def add_splash(self):
         # add splash page to notebook
@@ -118,23 +113,10 @@ class LandingPage(ttk.Frame):
         
 
 if __name__ == '__main__':
-    root = tk.Tk()
-    
-    # change geometry to 1/2 the detected screen size
+    root = Window(title = 'Capella', themename='darkly')
 
-    # get screen size
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-
-    # set geometry to 1284x1535
-
+    # set geometry 
     root.geometry('1426x1683')
-
-    # set theme
-    ttk.Style('darkly')
-
-    # set title
-    root.title('Capella')
 
     # Configure the weights for the root window
     root.grid_rowconfigure(0, weight=1)
