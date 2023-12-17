@@ -9,8 +9,7 @@ import gui_pages.fit_slope_page as fit_slope_page
 import gui_pages.sight_planning_page as sight_planning_page
 import gui_pages.azimuth_page as azimuth_page
 from utilities.sight_handling import load_sights_from_clipboard, save_sights_to_clipboard, open_sight_log
-from ttkbootstrap.utility import enable_high_dpi_awareness
-
+from utilities.os_handler import get_os_type
 """
 Capella is a celestial navigation program that allows the user to enter sights, plot lines of position, and perform sight reduction calculations. The goal is to provide a simple, intuitive interface for performing celestial navigation calculations that is also robust and uses modern mathematical methods for sight reduction evaluation. 
 
@@ -114,14 +113,19 @@ class LandingPage(ttk.Frame):
 
 if __name__ == '__main__':
     # if it is a unix OS:
-    root = Window(title = 'Capella', themename='darkly', hdpi = False, scaling = 1.25)
+    
+    # determine if the OS is linux or mac 
+    if get_os_type() == 'Unix' or get_os_type() == 'Darwin':
+        # set the theme to 'darkly'
+        root = Window(title = 'Capella', themename='darkly', hdpi = False, scaling = 1.25 )
+    # if it is a windows OS:
+    elif get_os_type() == 'Windows':
+   
+        root = Window(title = 'Capella', themename='darkly')
 
-    # else
-    # root = Window(title = 'Capella', themename='darkly', hdpi = True)
+    else:
+        raise Exception('OS not recognized')
 
-
-    # set geometry 
-    # root.geometry('1426x1683')
 
     # Configure the weights for the root window
     root.grid_rowconfigure(0, weight=1)

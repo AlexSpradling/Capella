@@ -1,3 +1,4 @@
+
 import sys
 import os
 import subprocess
@@ -12,6 +13,7 @@ import utilities.celestial_engine as celestial_engine
 from utilities.sight_planning import SightSessionPlanning
 from utilities.input_checking import InputChecking
 from tabulate import tabulate
+from utilities.os_handler import get_os_type
 
 def save_sights_to_clipboard(instance, entries, sight_list_treeview):
     """
@@ -54,11 +56,16 @@ def save_sights_to_clipboard(instance, entries, sight_list_treeview):
     return dr_copy, sextant_copy, fix_copy, sight_copy
 
 def load_sights_from_clipboard(instance, entries, sight_list_treeview):
+    
     """
     Loads Sight Session DR info and Sights into the Session info Sights Treeview from the clipboard.
     """
     copied_text = pc.paste()
 
+    if get_os_type() == 'Windows':
+        font_size = 15
+    else:
+        font_size = 12
     try:
         # Split the copied text into sections
         sections = re.split(r'### \d\.\s.*\n', copied_text)
@@ -89,7 +96,7 @@ def load_sights_from_clipboard(instance, entries, sight_list_treeview):
             sights = sections[3].strip().split('\n')[2:]  # Skip headers and divider rows
             for i, sight in enumerate(sights):
                 sight_data = [cell.strip() for cell in sight.split('|') if cell.strip()]
-                sight_list_treeview.tag_configure('main', font=('Arial Bold', 12))
+                sight_list_treeview.tag_configure('main', font=('Arial Bold', font_size))
                 sight_list_treeview.insert('', 'end', text='', iid=i, 
                                            values=sight_data, tags=('main',))
                 instance.counter += 1   
@@ -117,11 +124,16 @@ def load_sights_from_clipboard(instance, entries, sight_list_treeview):
 def add_new_sight(instance, bodies_entry_box, entry_boxes, sight_list_treeview):
     
     """Adds a new row to the Sight Entry Treeview"""
+    if get_os_type() == 'Windows':
+        font_size = 15
+    else:
+        font_size = 12
+
     try:
         # Get values from entry boxes and add to Treeview
         values = [entry.get() for entry in entry_boxes]
 
-        sight_list_treeview.tag_configure('main', font=('Arial Bold', 12))
+        sight_list_treeview.tag_configure('main', font=('Arial Bold', font_size))
         sight_list_treeview.insert('', 'end', text='', iid=instance.counter, values=values, tags=('main',))
         
         # Clear entry boxes
@@ -145,9 +157,14 @@ def delete_sight(sight_list_treeview):
 
 def update_sight(entry_list, sight_list_treeview):
     """Updates entry fields in 'Sight Entry' section"""
+
+    if get_os_type() == 'Windows':
+        font_size = 15
+    else:
+        font_size = 12
+
     selected = sight_list_treeview.focus()
-    selection = sight_list_treeview.item(selected, 'values')
-    sight_list_treeview.tag_configure('main', font=('Arial Bold', 12))
+    sight_list_treeview.tag_configure('main', font=('Arial Bold', font_size))
     sight_list_treeview.item(selected, text='', values=(entry_list[0].get(), 
                                                         entry_list[1].get(), 
                                                         entry_list[2].get(), 

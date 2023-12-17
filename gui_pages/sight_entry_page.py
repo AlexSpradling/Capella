@@ -15,6 +15,7 @@ from utilities.autocompletion import AutoComplete
 from utilities.sight_planning import SightSessionPlanning
 from utilities.tooltips import TextExtractor
 from ttkbootstrap.utility import enable_high_dpi_awareness
+from utilities.os_handler import get_os_type
 
 class SightEntryPage(ttk.Frame):
     
@@ -22,7 +23,6 @@ class SightEntryPage(ttk.Frame):
     counter = 0
     def __init__(self, container):
         super().__init__(container)
-        enable_high_dpi_awareness(self, 1.75)
 
         self.create_label_frames()
         self.create_notebook()
@@ -85,9 +85,14 @@ class SightEntryPage(ttk.Frame):
         # Configure the style for the treeview
         style = ttk.Style()
         style.configure('info.Treeview', rowheight=50) 
+        
+        if get_os_type() == 'Windows':
+            treeview_height = 10
+        else:
+            treeview_height = 7
 
         # create treeview
-        self.sight_list_treeview = ttk.Treeview(self.sight_frame, height=7, style = 'info.Treeview')
+        self.sight_list_treeview = ttk.Treeview(self.sight_frame, height=treeview_height, style = 'info.Treeview')
 
         # With these lines:
         self.sight_frame.grid_rowconfigure(0, weight=1)
@@ -483,9 +488,14 @@ class SightEntryPage(ttk.Frame):
 
         style = ttk.Style()
         style.configure('info.Treeview', rowheight=50) 
+        
+        if get_os_type() == 'Windows':
+            treeview_height = 2
+        else:
+            treeview_height = 3
 
                 # create treeview
-        self.fix_treeview = ttk.Treeview(self.fix_info_frame, height=3, style = 'warning.Treeview')
+        self.fix_treeview = ttk.Treeview(self.fix_info_frame, height=treeview_height, style = 'warning.Treeview')
 
 
         # add columns to treeview

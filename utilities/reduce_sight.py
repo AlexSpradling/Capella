@@ -3,6 +3,7 @@ from skyfield.api import Angle
 from utilities.celestial_engine import Sight, SightSession, SightReduction, Utilities
 import scipy.stats as stats
 from ttkbootstrap.dialogs import Messagebox
+from utilities.os_handler import get_os_type
 
 # takes info from newpageone treeview, creates SightSession instance and Sight instances and then creates SightReduction instance
 # adds Fix information to newpageone fix treeview
@@ -14,7 +15,8 @@ class CapellaSightReduction():
         self.fix_treeview = treeviews[1]
         self.info_fields = info_fields
         self.meter = meter
-        
+
+        self.get_fonts()
         self.delete_fix_treeview()
         self.create_sight_session()
         self.create_sights()
@@ -25,6 +27,14 @@ class CapellaSightReduction():
         self.systematic_error_handling()
    
         self.cnav_data_array_wipe()
+
+    def get_fonts(self):
+        # get os   
+        if get_os_type() == 'Windows':
+            self.font = 15
+        elif get_os_type() == 'Unix' or get_os_type() == 'Darwin':
+            self.font = 10
+
     
     def delete_fix_treeview(self):
      # delete all items from fix treeview
@@ -53,7 +63,7 @@ class CapellaSightReduction():
     def add_fix_to_treeview(self):
 
         # tag configure
-        self.fix_treeview.tag_configure('main', font=('Arial Bold', 10))
+        self.fix_treeview.tag_configure('main', font=('Arial Bold', self.font))
 
         # add blank first row to treeview for spacing
         self.fix_treeview.insert('', 'end', text='', iid='blank', values='', tags=('main',))
@@ -94,7 +104,7 @@ class CapellaSightReduction():
                 erroneous_sighttime = Sight.sight_times[idx].strftime('%Y-%m-%d %H:%M:%S')
                 
                 # create tag
-                self.sight_treeview.tag_configure('red', foreground='red', font=('Arial Bold', 12))
+                self.sight_treeview.tag_configure('red', foreground='red', font=('Arial Bold', self.font))
 
                 # highlight erroneous sight
                 self.sight_treeview.item(idx, tags=('red',))
