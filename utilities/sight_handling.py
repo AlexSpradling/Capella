@@ -89,7 +89,7 @@ def load_sights_from_clipboard(instance, entries, sight_list_treeview):
             sights = sections[3].strip().split('\n')[2:]  # Skip headers and divider rows
             for i, sight in enumerate(sights):
                 sight_data = [cell.strip() for cell in sight.split('|') if cell.strip()]
-                sight_list_treeview.tag_configure('main', font=('Arial Bold', 15))
+                sight_list_treeview.tag_configure('main', font=('Arial Bold', 12))
                 sight_list_treeview.insert('', 'end', text='', iid=i, 
                                            values=sight_data, tags=('main',))
                 instance.counter += 1   
@@ -121,7 +121,7 @@ def add_new_sight(instance, bodies_entry_box, entry_boxes, sight_list_treeview):
         # Get values from entry boxes and add to Treeview
         values = [entry.get() for entry in entry_boxes]
 
-        sight_list_treeview.tag_configure('main', font=('Arial Bold', 15))
+        sight_list_treeview.tag_configure('main', font=('Arial Bold', 12))
         sight_list_treeview.insert('', 'end', text='', iid=instance.counter, values=values, tags=('main',))
         
         # Clear entry boxes
@@ -147,7 +147,7 @@ def update_sight(entry_list, sight_list_treeview):
     """Updates entry fields in 'Sight Entry' section"""
     selected = sight_list_treeview.focus()
     selection = sight_list_treeview.item(selected, 'values')
-    sight_list_treeview.tag_configure('main', font=('Arial Bold', 15))
+    sight_list_treeview.tag_configure('main', font=('Arial Bold', 12))
     sight_list_treeview.item(selected, text='', values=(entry_list[0].get(), 
                                                         entry_list[1].get(), 
                                                         entry_list[2].get(), 

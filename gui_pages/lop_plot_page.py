@@ -6,7 +6,6 @@ import utilities.celestial_engine as celestial_engine
 class LOPPlotPage(ttk.Frame):
     def __init__(self, container):
         super().__init__(container)
-
         self.add_lop_plot()
         self.draw_canvas()
         

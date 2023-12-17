@@ -9,6 +9,7 @@ from utilities.autocompletion import AutoComplete
 from ttkbootstrap.dialogs import Messagebox
 from ttkbootstrap.tooltip import ToolTip
 from utilities.tooltips import TextExtractor
+from ttkbootstrap.window import Window
 
 class SightPlanningPage(ttk.Frame):
     def __init__(self, container, PageOne):

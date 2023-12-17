@@ -14,6 +14,7 @@ from utilities.input_checking import InputChecking
 from utilities.autocompletion import AutoComplete
 from utilities.sight_planning import SightSessionPlanning
 from utilities.tooltips import TextExtractor
+from ttkbootstrap.utility import enable_high_dpi_awareness
 
 class SightEntryPage(ttk.Frame):
     
@@ -21,6 +22,7 @@ class SightEntryPage(ttk.Frame):
     counter = 0
     def __init__(self, container):
         super().__init__(container)
+        enable_high_dpi_awareness(self, 1.75)
 
         self.create_label_frames()
         self.create_notebook()
@@ -85,7 +87,7 @@ class SightEntryPage(ttk.Frame):
         style.configure('info.Treeview', rowheight=50) 
 
         # create treeview
-        self.sight_list_treeview = ttk.Treeview(self.sight_frame, height=10, style = 'info.Treeview')
+        self.sight_list_treeview = ttk.Treeview(self.sight_frame, height=7, style = 'info.Treeview')
 
         # With these lines:
         self.sight_frame.grid_rowconfigure(0, weight=1)
@@ -483,13 +485,13 @@ class SightEntryPage(ttk.Frame):
         style.configure('info.Treeview', rowheight=50) 
 
                 # create treeview
-        self.fix_treeview = ttk.Treeview(self.fix_info_frame, height=1, style = 'warning.Treeview')
+        self.fix_treeview = ttk.Treeview(self.fix_info_frame, height=3, style = 'warning.Treeview')
 
 
         # add columns to treeview
         self.fix_treeview['columns'] = ('Date', 'Computed Lat', 'Computed Long', 'DR Lat', 'DR Long')
         self.fix_treeview.column('#0', width=0, stretch='no')
-        self.fix_treeview.column('Date', anchor='center', width=220, stretch='yes')
+        self.fix_treeview.column('Date', anchor='center', width=200, stretch='yes')
         self.fix_treeview.column('Computed Lat', anchor='center', width=80)
         self.fix_treeview.column('Computed Long', anchor='center', width=80)
         self.fix_treeview.column('DR Lat', anchor='center', width=80)
@@ -556,7 +558,6 @@ class SightEntryPage(ttk.Frame):
 
         
         # create ttk meter
-        from ttkbootstrap.widgets import Progressbar
         self.meter = Floodgauge(self.fix_info_frame, value = 0, mode = 'determinate', maximum = 100, bootstyle = 'primary.Horizontal.TFloodgauge', mask = "Fix Confidence: {}%", )
 
         # grid meter

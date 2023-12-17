@@ -113,10 +113,15 @@ class LandingPage(ttk.Frame):
         
 
 if __name__ == '__main__':
-    root = Window(title = 'Capella', themename='darkly')
+    # if it is a unix OS:
+    root = Window(title = 'Capella', themename='darkly', hdpi = False, scaling = 1.25)
+
+    # else
+    # root = Window(title = 'Capella', themename='darkly', hdpi = True)
+
 
     # set geometry 
-    root.geometry('1426x1683')
+    # root.geometry('1426x1683')
 
     # Configure the weights for the root window
     root.grid_rowconfigure(0, weight=1)

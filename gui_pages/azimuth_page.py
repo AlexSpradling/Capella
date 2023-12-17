@@ -10,6 +10,7 @@ import numpy as np
 import geomag as gm
 from skyfield.api import Angle, utc
 from utilities.autocompletion import AutoComplete
+from ttkbootstrap.window import Window
 
 class AzimuthPage(ttk.Frame):
     
