@@ -116,13 +116,10 @@ if __name__ == '__main__':
     
     # determine if the OS is linux or mac 
     if get_os_type() == 'Unix' or get_os_type() == 'Darwin':
-        # set the theme to 'darkly'
-        root = Window(title = 'Capella', themename='darkly', hdpi = False, scaling = 1.25 )
+        root = Window(title = 'Capella', themename='darkly', hdpi = False, scaling = 1.35 )
     # if it is a windows OS:
     elif get_os_type() == 'Windows':
-   
         root = Window(title = 'Capella', themename='darkly')
-
     else:
         raise Exception('OS not recognized')
 

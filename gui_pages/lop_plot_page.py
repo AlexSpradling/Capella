@@ -14,7 +14,7 @@ class LOPPlotPage(ttk.Frame):
         self.canvas_lop = tk.Canvas(self)
 
         # Get figure from lop_plot 
-        self.lop_plot = celestial_engine.plt.figure(2)
+        self.lop_plot = celestial_engine.plt.figure(2, dpi = 97)
         self.lop_plot.set_facecolor('#222222')
 
         # Add figure to canvas

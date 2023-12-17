@@ -33,7 +33,7 @@ class CapellaSightReduction():
         if get_os_type() == 'Windows':
             self.font = 15
         elif get_os_type() == 'Unix' or get_os_type() == 'Darwin':
-            self.font = 10
+            self.font = 12
 
     
     def delete_fix_treeview(self):
