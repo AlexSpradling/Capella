@@ -1,10 +1,7 @@
 import os
 import tkinter as tk
 import ttkbootstrap as ttk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-import utilities.celestial_engine as celestial_engine
 from utilities.sight_planning import SightSessionPlanning
-from gui_pages.sight_entry_page import SightEntryPage
 from utilities.autocompletion import AutoComplete
 from ttkbootstrap.dialogs import Messagebox
 from ttkbootstrap.tooltip import ToolTip

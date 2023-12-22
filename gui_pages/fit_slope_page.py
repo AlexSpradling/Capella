@@ -2,7 +2,8 @@ import tkinter as tk
 import ttkbootstrap as ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 import utilities.celestial_engine as celestial_engine
-from ttkbootstrap.window import Window
+
+
 class FitSlopePage(ttk.Frame):
     def __init__(self, container):
         super().__init__(container)

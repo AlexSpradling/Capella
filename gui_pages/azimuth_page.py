@@ -1,6 +1,5 @@
 import tkinter as tk
 import ttkbootstrap as ttk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 import datetime as dt
 from ttkwidgets.autocomplete import AutocompleteCombobox
 import utilities.celestial_engine as cnav
@@ -8,9 +7,9 @@ from ttkbootstrap.dialogs import Messagebox
 from tkinter import simpledialog
 import numpy as np
 import geomag as gm
-from skyfield.api import Angle, utc
+from skyfield.api import utc
 from utilities.autocompletion import AutoComplete
-from ttkbootstrap.window import Window
+
 
 class AzimuthPage(ttk.Frame):
     

@@ -2,20 +2,21 @@
 import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.window import Window
-import gui_pages.splash_page as splash_page
-import gui_pages.sight_entry_page as sight_entry_page
-import gui_pages.lop_plot_page as lop_plot_page
-import gui_pages.fit_slope_page as fit_slope_page
-import gui_pages.sight_planning_page as sight_planning_page
-import gui_pages.azimuth_page as azimuth_page
+from gui_pages import splash_page as splash_page
+from gui_pages import sight_entry_page as sight_entry_page
+from gui_pages import lop_plot_page as lop_plot_page
+from gui_pages import fit_slope_page as fit_slope_page
+from gui_pages import sight_planning_page as sight_planning_page
+from gui_pages import azimuth_page as azimuth_page
 from utilities.sight_handling import load_sights_from_clipboard, save_sights_to_clipboard, open_sight_log
 from utilities.os_handler import get_os_type
-"""
-Capella is a celestial navigation program that allows the user to enter sights, plot lines of position, and perform sight reduction calculations. The goal is to provide a simple, intuitive interface for performing celestial navigation calculations that is also robust and uses modern mathematical methods for sight reduction evaluation. 
 
 """
+Capella is a celestial navigation program that allows the user to enter sights, plot lines of position, and perform sight reduction calculations. The goal is to provide a simple, intuitive interface for performing celestial navigation calculations that is also robust and uses modern mathematical methods for sight reduction evaluation.
+"""
 
-class LandingPage(ttk.Frame):
+
+class CapellaApp(ttk.Frame):
 
     def create_notebook(self):
         # create pages
@@ -51,7 +52,6 @@ class LandingPage(ttk.Frame):
 
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
-        
         self.create_menu()
         self.create_notebook()
         self.add_splash()
@@ -67,11 +67,10 @@ class LandingPage(ttk.Frame):
         self.menubar = tk.Menu(self)
         self.filemenu = tk.Menu(self.menubar, tearoff=0)
         self.filemenu.add_command(label='Exit', command=self.quit, accelerator='Ctrl+q')
-        
-    
+
         # run sight_loader.py
         self.filemenu.add_command(
-            label='Load Sights', command = lambda : load_sights_from_clipboard(
+            label='Load Sights', command=lambda: load_sights_from_clipboard(
             self.page1,
             self.page1.fields,
             self.page1.sight_list_treeview
@@ -79,16 +78,16 @@ class LandingPage(ttk.Frame):
             accelerator='Ctrl+l'
         )
         self.filemenu.add_command(
-            label='Save Sights', command= lambda : save_sights_to_clipboard(
+            label='Save Sights', command=lambda: save_sights_to_clipboard(
             self.page1,
-            self.page1.fields, 
+            self.page1.fields,
             self.page1.sight_list_treeview
             ),
             accelerator='Ctrl+s'
         )
 
         self.filemenu.add_command(
-            label = 'Open Sight Log', command = lambda : open_sight_log(), 
+            label='Open Sight Log', command=lambda:open_sight_log(),
             accelerator='Ctrl+o'
         )
 
@@ -98,28 +97,28 @@ class LandingPage(ttk.Frame):
         self.bind_all('<Control-q>', lambda e: self.quit())
         self.bind_all('<Control-l>', lambda e: load_sights_from_clipboard(
             self.page1,
-            self.page1.fields, 
+            self.page1.fields,
             self.page1.sight_list_treeview
             )
         )
         self.bind_all('<Control-s>', lambda e: save_sights_to_clipboard(
             self.page1,
-            self.page1.fields, 
+            self.page1.fields,
             self.page1.sight_list_treeview
             )
         )
         self.bind_all('<Control-o>', lambda e: open_sight_log())
-        
+
 
 if __name__ == '__main__':
     # if it is a unix OS:
-    
-    # determine if the OS is linux or mac 
+
+    # determine if the OS is linux or mac
     if get_os_type() == 'Unix' or get_os_type() == 'Darwin':
-        root = Window(title = 'Capella', themename='darkly', hdpi = False, scaling = 1.35 )
+        root = Window(title='Capella', themename='darkly', hdpi=False, scaling=1.35)
     # if it is a windows OS:
     elif get_os_type() == 'Windows':
-        root = Window(title = 'Capella', themename='darkly')
+        root = Window(title='Capella', themename='darkly')
     else:
         raise Exception('OS not recognized')
 
@@ -129,8 +128,8 @@ if __name__ == '__main__':
     root.grid_columnconfigure(0, weight=1)
 
     # create landing page
-    landing_page = LandingPage(root)
-    
+    landing_page = CapellaApp(root)
+
     # pack landing page
     landing_page.pack(expand=True, fill='both')
 

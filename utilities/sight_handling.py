@@ -33,7 +33,7 @@ def save_sights_to_clipboard(instance, entries, sight_list_treeview):
         sight_array.append(sight)
 
     # Create Markdown tables with headers
-    session_headers = ["DR Date", "DR Time", "DR L", "DR λ", "Course", "Speed"]
+    session_headers = ["DR Date", "DR Time", "DR L", "DR LON", "Course", "Speed"]
     sextant_headers = ["I.C.", "H.O.E", "Temp.", "Press."]
     fix_headers = ["Fix Date", "Fix Time"]
     sight_headers = ["Body", "Hs", "Date", "Time"]
@@ -44,10 +44,10 @@ def save_sights_to_clipboard(instance, entries, sight_list_treeview):
     fix_data = [session_array[0][10:]]
 
     # Format each section with headers
-    dr_copy = "### 1. Dead Reckoning Information\n" + tabulate([dr_data], headers=session_headers, tablefmt="github")
-    sextant_copy = "### 2. Sextant Information\n" + tabulate(sextant_data, headers=sextant_headers, tablefmt="github")
-    fix_copy = "### 3. Fix Date and Time Information\n" + tabulate(fix_data, headers=fix_headers, tablefmt="github")
-    sight_copy = "### 4. Sights\n" + tabulate(sight_array, headers=sight_headers, tablefmt="github")
+    dr_copy = "*** 1. Dead Reckoning Information\n" + tabulate([dr_data], headers=session_headers, tablefmt="github")
+    sextant_copy = "*** 2. Sextant Information\n" + tabulate(sextant_data, headers=sextant_headers, tablefmt="github")
+    fix_copy = "*** 3. Fix Date and Time Information\n" + tabulate(fix_data, headers=fix_headers, tablefmt="github")
+    sight_copy = "*** 4. Sights\n" + tabulate(sight_array, headers=sight_headers, tablefmt="github")
 
     # Combine all data
     copied_data = "\n\n".join([dr_copy, sextant_copy, fix_copy, sight_copy])
@@ -68,7 +68,7 @@ def load_sights_from_clipboard(instance, entries, sight_list_treeview):
         font_size = 12
     try:
         # Split the copied text into sections
-        sections = re.split(r'### \d\.\s.*\n', copied_text)
+        sections = re.split(r'(?:\*{3}|\#{3}|\d+\.)\s.*\n', copied_text)
         sections = [section for section in sections if section.strip()]
 
         # Process DR information (section 0)

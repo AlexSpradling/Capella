@@ -1,20 +1,15 @@
-
-
-
 import tkinter as tk
 import os
 import ttkbootstrap as ttk
 from ttkbootstrap.tooltip import ToolTip
 from ttkbootstrap.widgets import Floodgauge
 from ttkwidgets.autocomplete import AutocompleteCombobox
-import utilities.celestial_engine as cnav
+from utilities import celestial_engine as cnav
 from utilities.sight_handling import add_new_sight, delete_sight, update_sight, UpdateAndAveraging
 from utilities.reduce_sight import CapellaSightReduction
 from utilities.input_checking import InputChecking
 from utilities.autocompletion import AutoComplete
-from utilities.sight_planning import SightSessionPlanning
 from utilities.tooltips import TextExtractor
-from ttkbootstrap.utility import enable_high_dpi_awareness
 from utilities.os_handler import get_os_type
 
 class SightEntryPage(ttk.Frame):
