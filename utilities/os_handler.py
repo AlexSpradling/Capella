@@ -1,5 +1,6 @@
 import platform
 
+
 def get_os_type():
     os_name = platform.system()
 
@@ -9,6 +10,7 @@ def get_os_type():
         return "Unix"
     else:
         return "Unknown"
+
 
 # Example usage
 os_type = get_os_type()
