@@ -1,9 +1,11 @@
-
-
 # Capella
 ---
 
-![](gifs/demo.gif)
+# Installation
+
+`pip install capella`. Navigate to your python installation and your `site-packages` directory and run `python capella` in your terminal. 
+
+---
 
 # Introduction
 
