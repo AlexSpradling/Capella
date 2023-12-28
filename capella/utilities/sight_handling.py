@@ -39,22 +39,22 @@ def save_sights_to_clipboard(instance, entries, sight_list_treeview):
     sight_headers = ["Body", "Hs", "Date", "Time"]
 
     # Split session data into separate sections
-    dr_data = session_array[0][:6]
+    dr_data = [session_array[0][:6]]
     sextant_data = [session_array[0][6:10]]
     fix_data = [session_array[0][10:]]
 
     # Format each section with headers
     dr_copy = "*** 1. Dead Reckoning Information\n" + tabulate(
-        [dr_data], headers=session_headers, tablefmt="github"
+        dr_data, headers=session_headers, tablefmt="orgtbl"
     )
     sextant_copy = "*** 2. Sextant Information\n" + tabulate(
-        sextant_data, headers=sextant_headers, tablefmt="github"
+        sextant_data, headers=sextant_headers, tablefmt="orgtbl"
     )
     fix_copy = "*** 3. Fix Date and Time Information\n" + tabulate(
-        fix_data, headers=fix_headers, tablefmt="github"
+        fix_data, headers=fix_headers, tablefmt="orgtbl"
     )
     sight_copy = "*** 4. Sights\n" + tabulate(
-        sight_array, headers=sight_headers, tablefmt="github"
+        sight_array, headers=sight_headers, tablefmt="orgtbl"
     )
 
     # Combine all data
