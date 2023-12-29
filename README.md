@@ -98,7 +98,7 @@ Bad sights will happen in a seaway. Capella uses a statistical model to evaluate
 
 **Systematic Error**
 
-If Capella's systematic error algorithm detects uncorrected index and personal error, a prompt will appear asking you could like to remove the error from your observations and recompute the fix. Click *Ok* and the fixed position will be re-computed and displayed. This process can be iterative and the prompt might appear multiple times, with each cycle bringing the calculated fix closer to the observer's true position. This method isn't a magic bullet, but can yield impressive results in certain circumstances. 
+If Capella's systematic error algorithm detects uncorrected index and personal error, a prompt will appear asking if you would like to remove the error from your observations and recompute the fix. Click *Ok* and the fixed position will be re-computed and displayed. This process can be iterative and the prompt might appear multiple times, with each cycle bringing the calculated fix closer to the observer's true position. This method isn't a magic bullet, but can yield impressive results in certain circumstances. 
 
 ## Loading and Saving Observations
 
