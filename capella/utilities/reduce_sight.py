@@ -145,6 +145,10 @@ class CapellaSightReduction:
                     for i in self.sight_treeview.selection():
                         self.sight_treeview.delete(i)
                     error_flag = False
+
+                    # wipe data arrays and run CapellaSightReduction again
+                    self.cnav_data_array_wipe()
+                    CapellaSightReduction(self.info_fields, [self.sight_treeview, self.fix_treeview], self.meter)
         
     
     def systematic_error_handling(self):
