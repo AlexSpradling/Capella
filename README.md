@@ -2,6 +2,12 @@
 # Capella
 ---
 
+# Getting Started
+
+1. `pip install capella`
+2. Navigate to your python installation's `site-packages` directory.
+3. run `python capella` in your terminal. The GUI will launch. 
+
 # Introduction
 
 Capella is a simple-to-use Astronavigation aid. The program will derive a celestial position fix from a minimum of inputs and plot the position on a chartlet, with an analysis of the accuracy of computed position provided. The program  additionally features some helper functions for celestial observation session planning, DR computation and compass correction.
@@ -19,11 +25,12 @@ office and couldn't possibly imagine the daily struggles of a ship's officer.
 
 Capella was written by and for working professional mariners actively
 sailing in the Merchant Marine -- Professional mariners that cannot
-spare a second because they move cargo at the speed of global commerce and have felt that pulling a sextant out of the box might
+spare a second because they move cargo at the speed of global commerce, and have felt that pulling a sextant out of the box might
 be more of an abdication of their watchstanding duties than an elegant
-exercise in navigational skill. Capella offers a
-celestial navigation process that is rapid, straightforward, and
-forgiving of errors, allowing the ship's officer to do what they do best, but with the peace of mind that they really are where they think they are. 
+exercise in navigational skill. 
+
+Capella offers a celestial navigation process that is rapid, straightforward, and
+forgiving of errors -- allowing the ship's officer to do what they do best, but with the peace of mind of knowing that they really are where they think they are. 
 
 
 # Section 1: Sight Entry
