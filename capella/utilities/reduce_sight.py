@@ -97,16 +97,23 @@ class CapellaSightReduction:
         self.meter_value = calculate_confidence(obj_fun_value)
         self.meter.configure(value=int(self.meter_value))
 
+
     def find_bad_sights(self):
         """
         This method finds erroneous sights using z-scores and then asks the user if they want to delete the erroneous sight.
         """
-        # find erroneous sights using z-scores
-        self.z_scores = stats.zscore(self.sight_reduction_instance.d_array)
+
+        # get z-scores
+        self.d_back = self.sight_reduction_instance.d_array
+        self.d_forward = self.sight_reduction_instance.d_array_dr
+
+        print(self.d_back)
+        print(self.d_forward)
 
         # iterate through z-scores and highlight erroneous sights
         for idx, d in enumerate(self.sight_reduction_instance.d_array):
-            if abs(self.z_scores[idx]) > 2.0:
+            # if z-score is highest in both directions
+            if abs(self.d_back[idx]) > 100 and abs(self.d_forward[idx]) > 100 or abs(stats.zscore(self.d_back)[idx]) > 2.0:
                 # get erroneous sight info
                 erroneous_body = Sight.body_array[idx]
                 # yyyy-mm-dd hh:mm:ss
@@ -138,7 +145,8 @@ class CapellaSightReduction:
                     for i in self.sight_treeview.selection():
                         self.sight_treeview.delete(i)
                     error_flag = False
-
+        
+    
     def systematic_error_handling(self):
         """
         This method finds the systematic error and asks the user if they want to remove it.
@@ -253,4 +261,15 @@ class CapellaSightReduction:
         SightReduction.sight_analysis_long_plus_one = []
         SightReduction.hc_minusone = []
         SightReduction.hc_plusone = []
+        SightReduction.drsight_analysis_lat_time_of_sight = []
+        SightReduction.drsight_analysis_long_time_of_sight = []
+        SightReduction.drsight_analysis_lat_minus_one = []
+        SightReduction.drsight_analysis_long_minus_one = []
+        SightReduction.drsight_analysis_lat_plus_one = []
+        SightReduction.drsight_analysis_long_plus_one = []
+        SightReduction.drhc_timeofsight = []
+        SightReduction.drhc_minusone = []
+        SightReduction.drhc_plusone = []
+        SightReduction.d_array = []
+        SightReduction.d_array_dr = []
         SightReduction.position_array_l = []

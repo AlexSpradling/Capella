@@ -755,6 +755,7 @@ class SightReduction(Sight):
 
         self.fixtime = SightSession.dr_details[0][9]
 
+    # from calculated fix
     sight_analysis_lat_time_of_sight = []
     sight_analysis_long_time_of_sight = []
     sight_analysis_lat_plus_one = []
@@ -797,6 +798,8 @@ class SightReduction(Sight):
     def sight_analysis(self):
         lat = float(self.fit_latitude.degrees)
         long = float(self.fit_longitude.degrees)
+        dr_lat = SightSession.dr_details[0][1]
+        dr_long = SightSession.dr_details[0][2]
         course = SightSession.dr_details[0][3].degrees
         speed = SightSession.dr_details[0][4]
 
@@ -816,6 +819,18 @@ class SightReduction(Sight):
                 lat, long, time_delta - 60, course, speed
             )
 
+            # calculate positions for exact, +1 minute, and -1 minute times for DR
+            lat_time_of_sight_dr, long_time_of_sight_dr = self.calculate_position(
+                dr_lat, dr_long, time_delta, course, speed
+            )
+            lat_plus_one_dr, long_plus_one_dr = self.calculate_position(
+                dr_lat, dr_long, time_delta + 60, course, speed
+            )
+            lat_minus_one_dr, long_minus_one_dr = self.calculate_position(
+                dr_lat, dr_long, time_delta - 60, course, speed
+            )
+
+
             # Store calculated positions
             self.sight_analysis_lat_time_of_sight.append(lat_time_of_sight)
             self.sight_analysis_long_time_of_sight.append(long_time_of_sight)
@@ -823,6 +838,15 @@ class SightReduction(Sight):
             self.sight_analysis_long_plus_one.append(long_plus_one)
             self.sight_analysis_lat_minus_one.append(lat_minus_one)
             self.sight_analysis_long_minus_one.append(long_minus_one)
+            
+            # store calculated positions for DR
+            self.drsight_analysis_lat_time_of_sight.append(lat_time_of_sight_dr)
+            self.drsight_analysis_long_time_of_sight.append(long_time_of_sight_dr)
+            self.drsight_analysis_lat_plus_one.append(lat_plus_one_dr)
+            self.drsight_analysis_long_plus_one.append(long_plus_one_dr)
+            self.drsight_analysis_lat_minus_one.append(lat_minus_one_dr)
+            self.drsight_analysis_long_minus_one.append(long_minus_one_dr)
+
 
             # Calculate and store heavenly body information
             self.datetime = sight_time
@@ -844,7 +868,30 @@ class SightReduction(Sight):
                 )
             )
 
+            # Calculate and store heavenly body information for DR
+            self.datetime_dr = sight_time
+            self.drhc_timeofsight.append(
+                self.calculate_heavenly_body_info(
+                    body, self.datetime, lat_time_of_sight_dr, long_time_of_sight_dr
+                )
+            )
+            self.datetime_dr = sight_time + dt.timedelta(seconds=60)
+            self.drhc_plusone.append(
+                self.calculate_heavenly_body_info(
+                    body, self.datetime, lat_plus_one_dr, long_plus_one_dr
+                )
+            )
+            self.datetime_dr = sight_time - dt.timedelta(seconds=60)
+            self.drhc_minusone.append(
+                self.calculate_heavenly_body_info(
+                    body, self.datetime, lat_minus_one_dr, long_minus_one_dr
+                )
+            )
+
+
+
     d_array = []
+    d_array_dr = []
 
     def y_fmt(self, y, x):
         """Format matplotlib y-value ("dd°mm')"""
@@ -888,6 +935,11 @@ class SightReduction(Sight):
             two = SightReduction.hc_minusone[i]
             three = Sight.ho_array[i]
             four = SightReduction.hc_timeofsight[i]
+            ####
+            one_dr = SightReduction.drhc_plusone[i]
+            two_dr = SightReduction.drhc_minusone[i]
+            three_dr = Sight.ho_array[i]
+            four_dr = SightReduction.drhc_timeofsight[i]
 
             time1 = Sight.sight_times[i]
             time_before = time1 + dt.timedelta(seconds=60)
@@ -906,8 +958,16 @@ class SightReduction(Sight):
             p3 = np.array([self.datetime_to_float(time1), three], dtype=object)
             p4 = np.array([self.datetime_to_float(time1), four], dtype=object)
 
+            # 
+            p1_dr = np.array([self.datetime_to_float(time_after), one_dr], dtype=object)
+            p2_dr = np.array([self.datetime_to_float(time_before), two_dr], dtype=object)
+            p3_dr = np.array([self.datetime_to_float(time1), three_dr], dtype=object)
+            p4_dr = np.array([self.datetime_to_float(time1), four_dr], dtype=object)
+
             d = float((np.cross(p2 - p1, p3 - p1) / np.linalg.norm(p2 - p1)) * 60)
+            d_dr = float((np.cross(p2_dr - p1_dr, p3_dr - p1_dr) / np.linalg.norm(p2_dr - p1_dr)) * 60)
             SightReduction.d_array.append(d)
+            SightReduction.d_array_dr.append(d_dr)
 
             ax.set_title(
                 f"{Sight.body_array[i]} || # {i + 1} || Scatter: %.2f' " % d,
