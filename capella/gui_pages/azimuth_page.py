@@ -9,6 +9,7 @@ import numpy as np
 import geomag as gm
 from skyfield.api import utc
 from utilities.autocompletion import AutoComplete
+from utilities.input_checking import InputChecking
 
 
 class AzimuthPage(ttk.Frame):
@@ -18,6 +19,7 @@ class AzimuthPage(ttk.Frame):
 
     def init_widgets(self):
         self.create_label_frames()
+        self.validation_commands()
         self.create_observation_inputs()
         self.create_treeview()
         self.autocompletion_binding()
@@ -34,6 +36,14 @@ class AzimuthPage(ttk.Frame):
         # weights
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
+
+    def validation_commands(self):
+    # create validation command instance
+            self.validate_number = self.register(InputChecking.validate_number)
+            self.check_time_format = self.register(InputChecking.check_time_format)
+            self.check_date_format = self.register(InputChecking.check_date_format)
+            self.check_lat_format = self.register(InputChecking.check_lat_format)
+            self.check_long_format = self.register(InputChecking.check_long_format)
 
     def create_observation_inputs(self):
         # Define unique StringVar variables for each input
@@ -102,7 +112,9 @@ class AzimuthPage(ttk.Frame):
             lbl = ttk.Label(self.azwrap2, text=label_text, width=10, anchor="w")
             lbl.grid(row=idx + 1, column=0, padx=10, pady=10, sticky="w")
 
-            ent = ttk.Entry(self.azwrap2, textvariable=self.az_vars[idx + 1], width=20)
+            ent = ttk.Entry(self.azwrap2, textvariable=self.az_vars[idx + 1],
+                            width=20, validate = "focusout", validatecommand =
+                            (self.validate_number, "%P"))
             # make entries helvetica, 10, bold
             ent.configure(font=("Helvetica", 10, "bold"))
             ent.insert(0, default_value)
@@ -113,7 +125,8 @@ class AzimuthPage(ttk.Frame):
         date_label = ttk.Label(self.azwrap2, text="Date UTC", width=10, anchor="w")
         date_label.grid(row=0, column=2, padx=10, pady=10, sticky="w")
         self.date_entry = ttk.Entry(
-            self.azwrap2, textvariable=self.az_vars[8], width=20
+            self.azwrap2, textvariable=self.az_vars[8], width=20, validate =
+            "focusout", validatecommand = (self.check_date_format, "%P")
         )
         self.date_entry.grid(row=0, column=3, padx=10, pady=10)
         self.date_entry.insert(0, dt.datetime.utcnow().strftime("%Y-%m-%d"))
@@ -121,7 +134,8 @@ class AzimuthPage(ttk.Frame):
         time_label = ttk.Label(self.azwrap2, text="Time UTC", width=10, anchor="w")
         time_label.grid(row=1, column=2, padx=10, pady=10, sticky="w")
         self.time_entry = ttk.Entry(
-            self.azwrap2, textvariable=self.az_vars[9], width=20
+            self.azwrap2, textvariable=self.az_vars[9], width=20, validate =
+            "focusout", validatecommand = (self.check_time_format, "%P")
         )
         self.time_entry.grid(row=1, column=3, padx=5, pady=3)
         self.time_entry.insert(0, dt.datetime.utcnow().strftime("%H:%M:%S"))
@@ -129,14 +143,16 @@ class AzimuthPage(ttk.Frame):
         lat_label = ttk.Label(self.azwrap2, text="DR Lat", width=10, anchor="w")
         lat_label.grid(row=2, column=2, padx=10, pady=10, sticky="w")
         self.lat_entry = ttk.Entry(
-            self.azwrap2, textvariable=self.az_vars[10], width=20
+            self.azwrap2, textvariable=self.az_vars[10], width=20, validate =
+            "focusout", validatecommand = (self.check_lat_format, "%P")
         )
         self.lat_entry.grid(row=2, column=3, padx=5, pady=3)
 
         lon_label = ttk.Label(self.azwrap2, text="DR Long", width=10, anchor="w")
         lon_label.grid(row=3, column=2, padx=10, pady=10, sticky="w")
         self.lon_entry = ttk.Entry(
-            self.azwrap2, textvariable=self.az_vars[11], width=20
+            self.azwrap2, textvariable=self.az_vars[11], width=20, validate =
+            "focusout", validatecommand = (self.check_long_format, "%P")
         )
         self.lon_entry.grid(row=3, column=3, padx=10, pady=10)
 

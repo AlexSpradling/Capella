@@ -479,13 +479,19 @@ class SightEntryPage(ttk.Frame):
             width=10,
         )
         self.hs_entry = ttk.Entry(
-            self.sight_info_entry_frame, textvariable=self.hs, width=12
+            self.sight_info_entry_frame, textvariable=self.hs, width=12,
+            validate = "focusout",
+            validatecommand = (self.check_hs_format, "%P")
         )
         self.date_entry = ttk.Entry(
-            self.sight_info_entry_frame, textvariable=self.date, width=12
+            self.sight_info_entry_frame, textvariable=self.date, width=12,
+            validate = "focusout",
+            validatecommand = (self.check_date_format, "%P")
         )
         self.time_entry = ttk.Entry(
-            self.sight_info_entry_frame, textvariable=self.time, width=12
+            self.sight_info_entry_frame, textvariable=self.time, width=12,
+            validate = "focusout",
+            validatecommand = (self.check_time_format, "%P")
         )
 
         # sight entry fields
@@ -760,6 +766,18 @@ class SightEntryPage(ttk.Frame):
             lambda event: self.autocomplete.time_formatting(event, self.time_entry),
         )
 
+        self.fix_time_entry.bind(
+                    "<KeyRelease>",
+                    lambda event: self.autocomplete.time_formatting(event, self.fix_time_entry),
+        )
+        self.fix_date_entry.bind(
+                    "<KeyRelease>",
+                    lambda event: self.autocomplete.date_formatting(event, self.fix_date_entry),
+        )
+
+
+
+
     def create_tooltips(self):
         # Get the directory where the current script (presumably __main__.py or similar) is located
         current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -779,6 +797,11 @@ class SightEntryPage(ttk.Frame):
         # create delete button tooltip
         self.delete_button_tooltip = ToolTip(
             self.delete_button, self.extractor.get_text("deleting_a_sight")
+        )
+
+        # create hs entry tooltip
+        self.hs_entry_tooltip = ToolTip(
+        self.hs_entry, self.extractor.get_text("hs")
         )
 
         # create add button tooltip
@@ -802,9 +825,6 @@ class SightEntryPage(ttk.Frame):
         )
 
 
-# TODO - Tooltips for Sights
-# TODO - Autoformatting for dates/times
 # TODO - make Sight planning controls larger
 # TODO - make sight planning controls more intuitive
 # TODO - fix multiple message box screen shift bug
-# TODO - Add averaging tooltip

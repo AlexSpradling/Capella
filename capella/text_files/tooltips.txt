@@ -3,7 +3,7 @@
 1. Fill the DR Date, Time, Course, and Speed Boxes:
 
 Dates are Formatted:
-yyyy-mm-22
+yyyy-mm-dd
 
 Times are Formatted:
 hh:mm:ss
@@ -17,17 +17,17 @@ ddd-mm.t-E/W
 
 Index Error, Height of Eye, Temperature, and Pressure Boxes:
 
-1. Index Error 
+1. Index Error
 Index Error is in arc minutes and uses the "off is on and on is off" system. E.G. if your error is 1.2 minutes ON the arc, enter it as -1.2
 
 2. Height of Eye
-Height of Eye is entered in feet. 
+Height of Eye is entered in feet.
 
 3. Temperature
-Temperature is in Celcius, 20 is the standard amount to use. 
+Temperature is in Celcius, 20 is the standard amount to use.
 
 4. Pressure
-Pressure is in millibars, 1010 is the standard amount to use. 
+Pressure is in millibars, 1010 is the standard amount to use.
 
 
 
@@ -35,22 +35,22 @@ Pressure is in millibars, 1010 is the standard amount to use.
 
 To Use:
 
-1. Ensure the green labeled fields on the first page are filled. 
+1. Ensure the green labeled fields on the first page are filled.
 
 2. Click blue PLANNING button.
 
 3. Select a time of phenomena from the below treeview menu
 
-4. Click PLANNING button AGAIN. 
+4. Click PLANNING button AGAIN.
 
-5. Browse through the pages of this notebook for detailed planning info. 
+5. Browse through the pages of this notebook for detailed planning info.
 
 # Time of Phenomena
 
-AM/PM star time and LAN, a time is given in UTC and LT, all times are the "second estimate" of the phenomena computed using the DR information on page 1. 
+AM/PM star time and LAN, a time is given in UTC and LT, all times are the "second estimate" of the phenomena computed using the DR information on page 1.
 
-To Populate: 
-1. Ensure DR fields are filled on page 1. 
+To Populate:
+1. Ensure DR fields are filled on page 1.
 2. Press Plan
 
 # Visible Bodies
@@ -64,7 +64,7 @@ This is a sorted list of 3 body sets, weighted by azimuthal distribution, magnit
 
 # Updating a Sight
 
-To Update a Sight Entry: 
+To Update a Sight Entry:
 
 1. Click on sight in Sight Entry table. The Sight details will populate in the Sight Entry area.
 2. Make any changes and click Update.
@@ -73,8 +73,8 @@ To Update a Sight Entry:
 
 To Delete a Sight Entry:
 
-1. Click on sight in Sight Entry Table. You can press shift and click to select as many sights as required. 
-2. Press delete. 
+1. Click on sight in Sight Entry Table. You can press shift and click to select as many sights as required.
+2. Press delete.
 
 # Adding a Sight
 
@@ -84,15 +84,19 @@ To Add a Single Sight:
 
 To Add an Averaged Sight:
 1. Select Multiple sights of the same body in the Sight List
-2. The Averaged Hs and Time of the Sights will appear in the Sight Entry Area. 
-3. Press Add. 
+2. The Averaged Hs and Time of the Sights will appear in the Sight Entry Area.
+3. Press Add.
+
+# Hs
+
+Sextant Observations are formatted: dd-mm.t
 
 # Computing a Fix
 
 To Compute a Fix:
-1. Enter a Date and Time in UTC that you'd like to compute the fix for. 
-2. Click COMPUTE FIX button. 
-3. The Date, Computed Lat, Computed Long, and DR Lat and DR long for the fix date and time are computed in the treeview. 
+1. Enter a Date and Time in UTC that you'd like to compute the fix for.
+2. Click COMPUTE FIX button.
+3. The Date, Computed Lat, Computed Long, and DR Lat and DR long for the fix date and time are computed in the treeview.
 
 Systematic Error Detection:
-If Capella's error detection algroithm detects systematic error in your sights (i.e. you've incorrectly estimated your height of eye or index error, etc.), it a message box will appear asking if you'd like to remove the error and recompute. This process is recursive and can happen several times before the algorithm detects a good fix. 
+If Capella's error detection algroithm detects systematic error in your sights (i.e. you've incorrectly estimated your height of eye or index error, etc.), a message box will appear asking if you'd like to remove the error and recompute. This process is recursive and can happen several times before the algorithm detects a good fix.
