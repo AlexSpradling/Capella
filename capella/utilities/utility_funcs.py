@@ -34,18 +34,29 @@ class Utilities:
             Always in UTC. 'hh:mm:ss'
 
         """
-        year, month, day = date.split("-")
-        hour, minute, second = time.split(":")
-        datetime = dt.datetime(
-            int(year),
-            int(month),
-            int(day),
-            int(hour),
-            int(minute),
-            int(second),
-            tzinfo=utc,
-        )
-
+        try:
+            year, month, day = date.split("-")
+            hour, minute, second = time.split(":")
+            datetime = dt.datetime(
+                int(year),
+                int(month),
+                int(day),
+                int(hour),
+                int(minute),
+                int(second),
+                tzinfo=utc,
+            )
+        except ValueError:
+            datetime = dt.datetime(
+                int(year),
+                int(month),
+                int(day),
+                int(hour),
+                int(minute),
+                int(second),
+                tzinfo=utc,
+            )
+            
         return datetime
 
     def hms(time):

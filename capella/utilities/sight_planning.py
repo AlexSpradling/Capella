@@ -6,6 +6,7 @@ from collections import Counter
 import datetime as dt
 from tabulate import tabulate
 import pyperclip as pc
+from utilities.os_handler import get_os_type
 
 
 class SightSessionPlanning:
@@ -63,10 +64,16 @@ class SightSessionPlanning:
                 self.ent_course,
                 self.ent_speed,
             )
+            
+            if get_os_type() == "Windows":
+                font_size = 14
+            else:
+                font_size = 11
+                
             # add times of phenomena to treeview
             for element in self.phenomena_times:
                 # make helvetica, 10, bold
-                self.treeviews[0].tag_configure("bold", font=("Helvetica", 10, "bold"))
+                self.treeviews[0].tag_configure("bold", font=("Arial Bold", font_size))
                 self.treeviews[0].insert(
                     "", "end", text="", iid=element, values=element, tags=("bold",)
                 )
