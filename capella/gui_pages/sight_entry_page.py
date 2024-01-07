@@ -479,19 +479,25 @@ class SightEntryPage(ttk.Frame):
             width=10,
         )
         self.hs_entry = ttk.Entry(
-            self.sight_info_entry_frame, textvariable=self.hs, width=12,
-            validate = "focusout",
-            validatecommand = (self.check_hs_format, "%P")
+            self.sight_info_entry_frame,
+            textvariable=self.hs,
+            width=12,
+            validate="focusout",
+            validatecommand=(self.check_hs_format, "%P"),
         )
         self.date_entry = ttk.Entry(
-            self.sight_info_entry_frame, textvariable=self.date, width=12,
-            validate = "focusout",
-            validatecommand = (self.check_date_format, "%P")
+            self.sight_info_entry_frame,
+            textvariable=self.date,
+            width=12,
+            validate="focusout",
+            validatecommand=(self.check_date_format, "%P"),
         )
         self.time_entry = ttk.Entry(
-            self.sight_info_entry_frame, textvariable=self.time, width=12,
-            validate = "focusout",
-            validatecommand = (self.check_time_format, "%P")
+            self.sight_info_entry_frame,
+            textvariable=self.time,
+            width=12,
+            validate="focusout",
+            validatecommand=(self.check_time_format, "%P"),
         )
 
         # sight entry fields
@@ -767,16 +773,13 @@ class SightEntryPage(ttk.Frame):
         )
 
         self.fix_time_entry.bind(
-                    "<KeyRelease>",
-                    lambda event: self.autocomplete.time_formatting(event, self.fix_time_entry),
+            "<KeyRelease>",
+            lambda event: self.autocomplete.time_formatting(event, self.fix_time_entry),
         )
         self.fix_date_entry.bind(
-                    "<KeyRelease>",
-                    lambda event: self.autocomplete.date_formatting(event, self.fix_date_entry),
+            "<KeyRelease>",
+            lambda event: self.autocomplete.date_formatting(event, self.fix_date_entry),
         )
-
-
-
 
     def create_tooltips(self):
         # Get the directory where the current script (presumably __main__.py or similar) is located
@@ -800,9 +803,7 @@ class SightEntryPage(ttk.Frame):
         )
 
         # create hs entry tooltip
-        self.hs_entry_tooltip = ToolTip(
-        self.hs_entry, self.extractor.get_text("hs")
-        )
+        self.hs_entry_tooltip = ToolTip(self.hs_entry, self.extractor.get_text("hs"))
 
         # create add button tooltip
         self.add_button_tooltip = ToolTip(

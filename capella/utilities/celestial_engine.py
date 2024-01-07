@@ -709,7 +709,6 @@ class SightReduction(Sight):
             hess_inv_diag = np.sqrt(np.diag(self.res.hess_inv.todense()))
             self.latitude_error, self.longitude_error = hess_inv_diag
         except Exception as e:
-            print(f"Error processing Hessian: {e}")
             self.latitude_error = self.longitude_error = None
 
     def update_computed_values(self):
@@ -830,7 +829,6 @@ class SightReduction(Sight):
                 dr_lat, dr_long, time_delta - 60, course, speed
             )
 
-
             # Store calculated positions
             self.sight_analysis_lat_time_of_sight.append(lat_time_of_sight)
             self.sight_analysis_long_time_of_sight.append(long_time_of_sight)
@@ -838,7 +836,7 @@ class SightReduction(Sight):
             self.sight_analysis_long_plus_one.append(long_plus_one)
             self.sight_analysis_lat_minus_one.append(lat_minus_one)
             self.sight_analysis_long_minus_one.append(long_minus_one)
-            
+
             # store calculated positions for DR
             self.drsight_analysis_lat_time_of_sight.append(lat_time_of_sight_dr)
             self.drsight_analysis_long_time_of_sight.append(long_time_of_sight_dr)
@@ -846,7 +844,6 @@ class SightReduction(Sight):
             self.drsight_analysis_long_plus_one.append(long_plus_one_dr)
             self.drsight_analysis_lat_minus_one.append(lat_minus_one_dr)
             self.drsight_analysis_long_minus_one.append(long_minus_one_dr)
-
 
             # Calculate and store heavenly body information
             self.datetime = sight_time
@@ -887,8 +884,6 @@ class SightReduction(Sight):
                     body, self.datetime, lat_minus_one_dr, long_minus_one_dr
                 )
             )
-
-
 
     d_array = []
     d_array_dr = []
@@ -958,14 +953,19 @@ class SightReduction(Sight):
             p3 = np.array([self.datetime_to_float(time1), three], dtype=object)
             p4 = np.array([self.datetime_to_float(time1), four], dtype=object)
 
-            # 
+            #
             p1_dr = np.array([self.datetime_to_float(time_after), one_dr], dtype=object)
-            p2_dr = np.array([self.datetime_to_float(time_before), two_dr], dtype=object)
+            p2_dr = np.array(
+                [self.datetime_to_float(time_before), two_dr], dtype=object
+            )
             p3_dr = np.array([self.datetime_to_float(time1), three_dr], dtype=object)
             p4_dr = np.array([self.datetime_to_float(time1), four_dr], dtype=object)
 
             d = float((np.cross(p2 - p1, p3 - p1) / np.linalg.norm(p2 - p1)) * 60)
-            d_dr = float((np.cross(p2_dr - p1_dr, p3_dr - p1_dr) / np.linalg.norm(p2_dr - p1_dr)) * 60)
+            d_dr = float(
+                (np.cross(p2_dr - p1_dr, p3_dr - p1_dr) / np.linalg.norm(p2_dr - p1_dr))
+                * 60
+            )
             SightReduction.d_array.append(d)
             SightReduction.d_array_dr.append(d_dr)
 

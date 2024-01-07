@@ -125,8 +125,13 @@ class SightPlanningPage(ttk.Frame):
         self.dr_longitude_entry = ttk.Entry(self.planning_controls_frame, width=12)
         self.dr_longitude_entry.grid(row=3, column=1, padx=10, pady=10, sticky="W")
 
-        planning_entries = [self.date_entry, self.time_entry, self.dr_latitude_entry, self.dr_longitude_entry]
-        
+        planning_entries = [
+            self.date_entry,
+            self.time_entry,
+            self.dr_latitude_entry,
+            self.dr_longitude_entry,
+        ]
+
         for entry in planning_entries:
             entry.config(font=("Helvetica", 12, "bold"), justify="center")
 
@@ -163,10 +168,9 @@ class SightPlanningPage(ttk.Frame):
         self.set_planning_time_button.grid(
             row=4, column=0, padx=10, pady=10, sticky="W", columnspan=7
         )
-        
+
         self.planning_controls_frame.rowconfigure(0, weight=1)
         self.planning_controls_frame.rowconfigure(1, weight=1)
-        
 
     def check(self):
         # if self.gui_page1.entry_fields are all complete, then instantiate SightSessionPlanning
@@ -191,7 +195,6 @@ class SightPlanningPage(ttk.Frame):
             Messagebox.show_error("Error", "Please complete all fields")
 
     def create_time_of_phenomena_treeview(self):
-        
         style = ttk.Style()
         style.configure("danger.Treeview", rowheight=50)
 
@@ -200,10 +203,11 @@ class SightPlanningPage(ttk.Frame):
         else:
             treeview_height = 7
 
-
         # add treeview to page 2
         self.time_of_phenomena_treeview = ttk.Treeview(
-            self.phenoma_frame, style="danger.Treeview", height=treeview_height, 
+            self.phenoma_frame,
+            style="danger.Treeview",
+            height=treeview_height,
         )
 
         # grid
@@ -222,7 +226,7 @@ class SightPlanningPage(ttk.Frame):
         # format columns
         self.time_of_phenomena_treeview.column("#0", width=0, stretch="no")
         self.time_of_phenomena_treeview.column("Date GMT", anchor="center", width=30)
-        self.time_of_phenomena_treeview.column("Date LMT", anchor="center", width = 30)
+        self.time_of_phenomena_treeview.column("Date LMT", anchor="center", width=30)
         self.time_of_phenomena_treeview.column("Event", anchor="center", width=220)
 
         # add headings

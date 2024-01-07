@@ -249,70 +249,74 @@ class UpdateAndAveraging:
     def print_element(self, event):
         """Click on a Sight in the Sight Field treeview and the Sight Entry input box values will change
         respectively"""
-        trv = event.widget
-        selected = trv.focus()
-        selection = trv.item(selected, "values")
+        try:
+            trv = event.widget
+            selected = trv.focus()
+            selection = trv.item(selected, "values")
 
-        for ent in self.ents:
-            ent.delete(0, "end")
+            for ent in self.ents:
+                ent.delete(0, "end")
 
-        self.ents[0].insert(0, selection[0])
-        self.ents[1].insert(0, selection[1])
-        self.ents[2].insert(0, selection[2])
-        self.ents[3].insert(0, selection[3])
+            self.ents[0].insert(0, selection[0])
+            self.ents[1].insert(0, selection[1])
+            self.ents[2].insert(0, selection[2])
+            self.ents[3].insert(0, selection[3])
 
-        # Sight Averaging
-        selection = trv.selection()
-        datetimeList = []
-        hsList = []
-        for record in selection:
-            # time averaging
-            values = trv.item(record, "values")
-            year, month, day = values[2].split("-")
-            hour, minute, second = values[3].split(":")
-            sight_dt_obj = dt.datetime(
-                int(year), int(month), int(day), int(hour), int(minute), int(second)
-            )
-            datetimeList.append(sight_dt_obj)
-            avgTime = dt.datetime.strftime(
-                dt.datetime.fromtimestamp(
-                    sum(map(dt.datetime.timestamp, datetimeList)) / len(datetimeList)
-                ),
-                "%H:%M:%S",
-            )
-            avgDate = dt.datetime.strftime(
-                dt.datetime.fromtimestamp(
-                    sum(map(dt.datetime.timestamp, datetimeList)) / len(datetimeList)
-                ),
-                "%Y-%m-%d",
-            )
+            # Sight Averaging
+            selection = trv.selection()
+            datetimeList = []
+            hsList = []
+            for record in selection:
+                # time averaging
+                values = trv.item(record, "values")
+                year, month, day = values[2].split("-")
+                hour, minute, second = values[3].split(":")
+                sight_dt_obj = dt.datetime(
+                    int(year), int(month), int(day), int(hour), int(minute), int(second)
+                )
+                datetimeList.append(sight_dt_obj)
+                avgTime = dt.datetime.strftime(
+                    dt.datetime.fromtimestamp(
+                        sum(map(dt.datetime.timestamp, datetimeList))
+                        / len(datetimeList)
+                    ),
+                    "%H:%M:%S",
+                )
+                avgDate = dt.datetime.strftime(
+                    dt.datetime.fromtimestamp(
+                        sum(map(dt.datetime.timestamp, datetimeList))
+                        / len(datetimeList)
+                    ),
+                    "%Y-%m-%d",
+                )
 
-            # hs averaging
-            hs_deg, hs_min = values[1].split("-")
-            hs = float(hs_deg) + (float(hs_min) / 60)
-            hs = Angle(degrees=(hs))
-            hsList.append(hs.degrees)
+                # hs averaging
+                hs_deg, hs_min = values[1].split("-")
+                hs = float(hs_deg) + (float(hs_min) / 60)
+                hs = Angle(degrees=(hs))
+                hsList.append(hs.degrees)
 
-            hs_avg = celestial_engine.Utilities.hmt_str_2(np.mean(hsList))
+                hs_avg = celestial_engine.Utilities.hmt_str_2(np.mean(hsList))
 
-            # make ent text red if more than one sight is selected
+                # make ent text red if more than one sight is selected
 
-            if len(selection) >= 2:
-                self.ents[1].config(foreground="cyan")
-                self.ents[2].config(foreground="cyan")
-                self.ents[3].config(foreground="cyan")
-            else:
-                self.ents[1].config(foreground="white")
-                self.ents[2].config(foreground="white")
-                self.ents[3].config(foreground="white")
+                if len(selection) >= 2:
+                    self.ents[1].config(foreground="cyan")
+                    self.ents[2].config(foreground="cyan")
+                    self.ents[3].config(foreground="cyan")
+                else:
+                    self.ents[1].config(foreground="white")
+                    self.ents[2].config(foreground="white")
+                    self.ents[3].config(foreground="white")
 
-            self.ents[1].delete(0, "end")
-            self.ents[2].delete(0, "end")
-            self.ents[3].delete(0, "end")
-            self.ents[1].insert(0, hs_avg)
-            self.ents[2].insert(0, avgDate)
-            self.ents[3].insert(0, avgTime)
-
+                self.ents[1].delete(0, "end")
+                self.ents[2].delete(0, "end")
+                self.ents[3].delete(0, "end")
+                self.ents[1].insert(0, hs_avg)
+                self.ents[2].insert(0, avgDate)
+                self.ents[3].insert(0, avgTime)
+        except:
+            pass
             # if len(hsList) >= 2:
             #     avg_lbl.grid(row=1, column=2, padx=2, pady=3)
             #     avg_lbl_2.grid(row=3, column=2, padx=2, pady=3)

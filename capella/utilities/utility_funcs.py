@@ -56,7 +56,7 @@ class Utilities:
                 int(second),
                 tzinfo=utc,
             )
-            
+
         return datetime
 
     def hms(time):

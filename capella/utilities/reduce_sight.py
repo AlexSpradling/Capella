@@ -97,7 +97,6 @@ class CapellaSightReduction:
         self.meter_value = calculate_confidence(obj_fun_value)
         self.meter.configure(value=int(self.meter_value))
 
-
     def find_bad_sights(self):
         """
         This method finds erroneous sights using z-scores and then asks the user if they want to delete the erroneous sight.
@@ -107,13 +106,14 @@ class CapellaSightReduction:
         self.d_back = self.sight_reduction_instance.d_array
         self.d_forward = self.sight_reduction_instance.d_array_dr
 
-        print(self.d_back)
-        print(self.d_forward)
-
         # iterate through z-scores and highlight erroneous sights
         for idx, d in enumerate(self.sight_reduction_instance.d_array):
             # if z-score is highest in both directions
-            if abs(self.d_back[idx]) > 100 and abs(self.d_forward[idx]) > 100 or abs(stats.zscore(self.d_back)[idx]) > 2.0:
+            if (
+                abs(self.d_back[idx]) > 100
+                and abs(self.d_forward[idx]) > 100
+                or abs(stats.zscore(self.d_back)[idx]) > 2.0
+            ):
                 # get erroneous sight info
                 erroneous_body = Sight.body_array[idx]
                 # yyyy-mm-dd hh:mm:ss
@@ -148,9 +148,12 @@ class CapellaSightReduction:
 
                     # wipe data arrays and run CapellaSightReduction again
                     self.cnav_data_array_wipe()
-                    CapellaSightReduction(self.info_fields, [self.sight_treeview, self.fix_treeview], self.meter)
-        
-    
+                    CapellaSightReduction(
+                        self.info_fields,
+                        [self.sight_treeview, self.fix_treeview],
+                        self.meter,
+                    )
+
     def systematic_error_handling(self):
         """
         This method finds the systematic error and asks the user if they want to remove it.

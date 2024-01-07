@@ -64,12 +64,12 @@ class SightSessionPlanning:
                 self.ent_course,
                 self.ent_speed,
             )
-            
+
             if get_os_type() == "Windows":
                 font_size = 14
             else:
                 font_size = 11
-                
+
             # add times of phenomena to treeview
             for element in self.phenomena_times:
                 # make helvetica, 10, bold
@@ -88,48 +88,54 @@ class SightSessionPlanning:
         self.dr_latitude_entry.delete(0, "end")
         self.dr_longitude_entry.delete(0, "end")
 
-        # get time from DR page and entry from sight planning page
-        self.datetime_dr_start = cnav.Utilities.datetime(self.ent_date, self.ent_time)
-        self.datetime_dr_end = cnav.Utilities.datetime(
-            self.dr_date_entry_value, self.dr_time_entry_value
-        )
+        try:
+            # get time from DR page and entry from sight planning page
+            self.datetime_dr_start = cnav.Utilities.datetime(
+                self.ent_date, self.ent_time
+            )
+            self.datetime_dr_end = cnav.Utilities.datetime(
+                self.dr_date_entry_value, self.dr_time_entry_value
+            )
 
-        # get timedelta in seconds
-        self.timedelta = dt.timedelta.total_seconds(
-            self.datetime_dr_end - self.datetime_dr_start
-        )
+            # get timedelta in seconds
+            self.timedelta = dt.timedelta.total_seconds(
+                self.datetime_dr_end - self.datetime_dr_start
+            )
 
-        # format latitude and longitude
-        self.dr_lat_start = cnav.Utilities.hmt_str_to_decimal_d(
-            self.ent_latitude, self.ent_longitude
-        )[0]
-        self.dr_long_start = cnav.Utilities.hmt_str_to_decimal_d(
-            self.ent_longitude, self.ent_longitude
-        )[1]
+            # format latitude and longitude
+            self.dr_lat_start = cnav.Utilities.hmt_str_to_decimal_d(
+                self.ent_latitude, self.ent_longitude
+            )[0]
+            self.dr_long_start = cnav.Utilities.hmt_str_to_decimal_d(
+                self.ent_longitude, self.ent_longitude
+            )[1]
 
-        # calculate DR position
-        self.dr_lat_end = cnav.DRCalc(
-            self.dr_lat_start,
-            self.dr_long_start,
-            self.timedelta,
-            float(self.ent_course),
-            float(self.ent_speed),
-        ).drlatfwds
-        self.dr_long_end = cnav.DRCalc(
-            self.dr_lat_start,
-            self.dr_long_start,
-            self.timedelta,
-            float(self.ent_course),
-            float(self.ent_speed),
-        ).drlongfwds
+            # calculate DR position
+            self.dr_lat_end = cnav.DRCalc(
+                self.dr_lat_start,
+                self.dr_long_start,
+                self.timedelta,
+                float(self.ent_course),
+                float(self.ent_speed),
+            ).drlatfwds
+            self.dr_long_end = cnav.DRCalc(
+                self.dr_lat_start,
+                self.dr_long_start,
+                self.timedelta,
+                float(self.ent_course),
+                float(self.ent_speed),
+            ).drlongfwds
 
-        # insert DR position into entry fields
-        self.dr_latitude_entry.insert(
-            0, cnav.Utilities.print_position2(self.dr_lat_end, latitude=True)
-        )
-        self.dr_longitude_entry.insert(
-            0, cnav.Utilities.print_position2(self.dr_long_end, latitude=False)
-        )
+            # insert DR position into entry fields
+            self.dr_latitude_entry.insert(
+                0, cnav.Utilities.print_position2(self.dr_lat_end, latitude=True)
+            )
+            self.dr_longitude_entry.insert(
+                0, cnav.Utilities.print_position2(self.dr_long_end, latitude=False)
+            )
+
+        except:
+            pass
 
     def visible_bodies_sorted_triads(self, datetime, latitude, longitude):
         """Function to find all visible celestial bodies at the time requested, and sort them into weighted
