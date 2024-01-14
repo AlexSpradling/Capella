@@ -3,10 +3,18 @@
 ---
 
 # Getting Started
+You need to have python3 and `pip` installed.
 
-1. `pip install capella`
-2. Navigate to your python installation's `site-packages` directory.
-3. run `python capella` in your terminal. The GUI will launch. 
+### To Install Python:
+Go here: https://www.python.org/downloads/
+
+### If your Python installation doesn't have `pip` installed by default:
+Go here: https://pip.pypa.io/en/stable/installation/
+
+THEN:
+1. Open your terminal and run `pip install capella`.
+2. Copy and run this in your terminal: `cd "$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")"`
+3. Copy and run `python capella` in your terminal. The GUI will launch. 
 
 # Introduction
 
